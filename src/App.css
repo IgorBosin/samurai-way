@@ -1,3 +1,35 @@
-ul li {
-  list-style-type: georgian;
+.app-wrapper {
+    width: 100%;
+    display: grid;
+    grid-template-areas:
+"h h"
+"n c";
+    grid-template-rows: 60px 1fr;
+    grid-template-columns: 2fr 10fr;
+    /*grid-gap: 10px;*/
+}
+
+.header {
+    grid-area: h;
+    background: #EEEEFF;
+
+}
+
+.nav {
+    grid-area: n;
+    background: #CBD1C9;
+}
+
+.content {
+    grid-area: c;
+    background: #9FB4C7;
+}
+
+.header img {
+    height: 60px;
+}
+
+.content img {
+    height: 100px;
+    width: 100%;
 }
