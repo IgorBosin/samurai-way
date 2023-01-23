@@ -4,3 +4,4 @@
 4. 4 commit: 12 lesson (https://themeforest.net/search/social%20network - social network)
 5. 5 commit: 13-14 lesson
 6. 6 commit: 15 lesson
+7. 7 commit: 16 lesson

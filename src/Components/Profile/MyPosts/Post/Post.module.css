@@ -7,3 +7,13 @@
     height: 50px;
     border-radius: 50%;
 }
+
+.messagePost {
+    color: black;
+    font: italic 120% cursive;
+}
+
+.name {
+    color: black;
+    font: bold 130% cursive;
+}
