@@ -6,3 +6,4 @@
 6. 6 commit: 15 lesson
 7. 7 commit: 16 lesson
 8. 8 commit: 17-18 lesson
+9. 9 commit: 19 lesson

@@ -1,5 +1,5 @@
 import React from "react";
-import classes from "./MyPosts.module.css";
+import s from "./MyPosts.module.css";
 import Post from "./Post/Post";
 
 function MyPosts() {
@@ -10,7 +10,7 @@ function MyPosts() {
                 <textarea></textarea>
                 <button>Add post</button>
             </div>
-            <div className={classes.posts}>
+            <div className={s.posts}>
                 <Post message='Hi Maria' name="Igor" numberOfLikes={20} />
                 <Post message='Hi Igor' name='Maria' numberOfLikes={3} />
             </div>
