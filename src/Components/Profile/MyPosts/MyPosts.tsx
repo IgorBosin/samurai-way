@@ -2,17 +2,27 @@ import React from "react";
 import s from "./MyPosts.module.css";
 import Post from "./Post/Post";
 
-function MyPosts() {
+function PostInProfile(props: any) {
     return (
         <div>
-            My post
+            <Post message={props.messages} name={props.name} numberOfLikes={props.numberOfLikes}/>
+        </div>
+    )
+}
+
+function MyPosts(props: any) {
+    return (
+        <div className={s.postBlock}>
+            <h3>My post</h3>
             <div>
                 <textarea></textarea>
-                <button>Add post</button>
+                <div>
+                    <button>Add post</button>
+                </div>
             </div>
             <div className={s.posts}>
-                <Post message='Hi Maria' name="Igor" numberOfLikes={20} />
-                <Post message='Hi Igor' name='Maria' numberOfLikes={3} />
+                <PostInProfile messages='Hi Igor' name='Maria' numberOfLikes={3}/>
+                <PostInProfile messages='Hi Maria' name='Igor' numberOfLikes={21}/>
             </div>
         </div>
     )
