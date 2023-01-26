@@ -12,10 +12,12 @@ function PostInProfile(props: any) {
 
 function MyPosts(props: any) {
 
-    let postData = [
-        {id: 1, message: 'Hi Igor', name:'Maria', likesCount: 3},
-        {id: 2, message: 'Hi Maria', name:'Igor', likesCount: 21},
+    let posts = [
+        {id: 1, message: 'Hi Igor', name: 'Maria', likesCount: 3},
+        {id: 2, message: 'Hi Maria', name: 'Igor', likesCount: 21},
     ];
+
+    let postsElements = posts.map(p => <PostInProfile messages={p.message} name={p.name} likesCount={p.likesCount}/>)
 
     return (
         <div className={s.postBlock}>
@@ -27,8 +29,7 @@ function MyPosts(props: any) {
                 </div>
             </div>
             <div className={s.posts}>
-                <PostInProfile messages={postData[0].message} name={postData[0].name} likesCount={postData[0].likesCount}/>
-                <PostInProfile messages={postData[1].message} name={postData[1].name} likesCount={postData[1].likesCount}/>
+                {postsElements}
             </div>
         </div>
     )
