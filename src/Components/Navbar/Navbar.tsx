@@ -1,14 +1,6 @@
 import React from "react";
 import s from './Navbar.module.css'
-import {NavLink} from "react-router-dom";
-
-function NavbarItem(props: any) {
-    return (
-        <div className={s.item}>
-            <NavLink to={`/${props.item}`} activeClassName={s.active}>{props.name}</NavLink>
-        </div>
-    )
-}
+import {NavbarItem} from "./NavbarItem/NavbarItem";
 
 function Navbar(props: any) {
     return (
