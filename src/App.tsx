@@ -9,6 +9,11 @@ import News from "./Components/News/News";
 import Settings from "./Components/Settings/Settings";
 import Music from "./Components/Music/Music";
 
+type AppPropsType = {
+    message: String;
+    posts: String;
+    dialogs: String;
+}
 
 function App(props: any) {
     return (
@@ -17,11 +22,11 @@ function App(props: any) {
                 <Header/>
                 <Navbar/>
                 <div className='app-wrapper-content'>
-                    <Route path='/profile' component={Profile}/>
-                    <Route path='/dialog' component={Dialogs}/>
-                    <Route path='/settings' component={Settings}/>
-                    <Route path='/news' component={News}/>
-                    <Route path='/music' component={Music}/>
+                    <Route path='/profile' render={() => <Profile posts={props.posts}/>}/>
+                    <Route path='/dialog' render={() => <Dialogs message={props.message} dialogs={props.dialogs}/>}/>
+                    <Route path='/settings' render={() => <Settings/>}/>
+                    <Route path='/news' render={() => <News/>}/>
+                    <Route path='/music' render={() => <Music/>}/>
                 </div>
             </div>
         </BrowserRouter>
