@@ -15,3 +15,4 @@
 15. 15 commit: 25 lesson
 16. 16 commit: 26 lesson
 17. 17 commit: 27-28 lesson
+18. 18 commit: add type all application

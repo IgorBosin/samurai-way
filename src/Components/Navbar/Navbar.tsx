@@ -2,7 +2,7 @@ import React from "react";
 import s from './Navbar.module.css'
 import {NavbarItem} from "./NavbarItem/NavbarItem";
 
-function Navbar(props: any) {
+function Navbar() {
     return (
         <div className={s.nav}>
             <NavbarItem item='profile' name='Profile'/>

@@ -9,13 +9,31 @@ import News from "./Components/News/News";
 import Settings from "./Components/Settings/Settings";
 import Music from "./Components/Music/Music";
 
-type AppPropsType = {
-    message: String;
-    posts: String;
-    dialogs: String;
+type messageType = {
+    id: number
+    message: string
 }
 
-function App(props: any) {
+type dialogsType = {
+    id: number
+    name: string
+}
+
+type postsType = {
+    id: number
+    message: string
+    name: string
+    likesCount: number
+    img: string
+}
+
+type AppType = {
+    message: messageType[]
+    posts: Array<postsType>
+    dialogs: dialogsType[]
+}
+
+function App(props: AppType) {
     return (
         <BrowserRouter>
             <div className='app-wrapper'>

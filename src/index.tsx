@@ -8,14 +8,14 @@ let posts = [
         id: 1,
         message: 'Hi Igor',
         name: 'Maria',
-        likesCount: 3,
+        likesCount: 666,
         img: 'https://i.ibb.co/ngzWTmY/maria.jpg',
     },
     {
         id: 2,
-        message: 'Hi Maria',
+        message: 'Masha koza',
         name: 'Igor',
-        likesCount: 21,
+        likesCount: 777,
         img: 'https://i.ibb.co/6YM5Wht/igor.jpg',
     },
 ];

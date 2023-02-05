@@ -1,9 +1,15 @@
 import React from "react";
 import s from "./Post.module.css";
 
-function Post(props: any) {
-    debugger
+type PostType = {
+    name: string
+    img: string
+    messages: string
+    likesCount: number
 
+}
+
+function Post(props: PostType) {
     return (
         <div className={s.item}>
             <div className={s.name}>
