@@ -9,17 +9,18 @@ import News from "./Components/News/News";
 import Settings from "./Components/Settings/Settings";
 import Music from "./Components/Music/Music";
 
-type messageType = {
+export type messagesType = {
     id: number
     message: string
 }
 
-type dialogsType = {
+export type dialogsType = {
     id: number
     name: string
+    avatar: string
 }
 
-type postsType = {
+export type postsType = {
     id: number
     message: string
     name: string
@@ -27,10 +28,23 @@ type postsType = {
     img: string
 }
 
-type AppType = {
-    message: messageType[]
-    posts: Array<postsType>
+export type ProfilePageType = {
+    posts: postsType[]
+}
+
+export type DialogsPageType = {
+    messages: messagesType[]
     dialogs: dialogsType[]
+}
+
+export type StateType = {
+    profilePage: ProfilePageType
+    dialogsPage: DialogsPageType
+    sidebar:dialogsType[]
+}
+
+export type AppType = {
+    state: StateType
 }
 
 function App(props: AppType) {
@@ -38,10 +52,10 @@ function App(props: AppType) {
         <BrowserRouter>
             <div className='app-wrapper'>
                 <Header/>
-                <Navbar/>
+                <Navbar sidebar={props.state.sidebar}/>
                 <div className='app-wrapper-content'>
-                    <Route path='/profile' render={() => <Profile posts={props.posts}/>}/>
-                    <Route path='/dialog' render={() => <Dialogs message={props.message} dialogs={props.dialogs}/>}/>
+                    <Route path='/profile' render={() => <Profile posts={props.state.profilePage}/>}/>
+                    <Route path='/dialog' render={() => <Dialogs data={props.state.dialogsPage}/>}/>
                     <Route path='/settings' render={() => <Settings/>}/>
                     <Route path='/news' render={() => <News/>}/>
                     <Route path='/music' render={() => <Music/>}/>

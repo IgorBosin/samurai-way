@@ -8,7 +8,6 @@ type NavbarItemType = {
 }
 
 export function NavbarItem(props: NavbarItemType) {
-    debugger
     return (
         <div className={s.item}>
             <NavLink to={`/${props.item}`} activeClassName={s.active}>{props.name}</NavLink>
