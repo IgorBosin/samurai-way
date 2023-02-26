@@ -7,6 +7,9 @@ type MessagePropsType = {
 
 export function Message(props: MessagePropsType) {
     return (
-        <div className={s.messages}>{props.dialogMessages}</div>
+        
+        <div
+            className={s.messages}>{props.dialogMessages}
+        </div>
     )
 }

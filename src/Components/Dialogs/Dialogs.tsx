@@ -1,4 +1,4 @@
-import React from "react";
+import React, {LegacyRef} from "react";
 import s from './Dialogs.module.css'
 import {DialogItem} from "./DialogsItem/DialogItem";
 import {Message} from "./Message/Message";
@@ -10,7 +10,7 @@ type DialogsType = {
 
 function Dialogs(props: DialogsType) {
 
-    let dialogsElements = props.data.dialogs.map((d: { name: string; id: number; avatar:string }) =>
+    let dialogsElements = props.data.dialogs.map((d: { name: string; id: number; avatar: string }) =>
         <DialogItem
             dialogName={d.name}
             id={d.id}
@@ -19,6 +19,13 @@ function Dialogs(props: DialogsType) {
         <Message
             dialogMessages={m.message}/>)
 
+    const addMessages: LegacyRef<HTMLInputElement> = React.createRef()
+
+    const onClickHandler = () => {
+        alert(addMessages.current?.value)
+    }
+
+
     return (
         <div className={s.dialogs}>
             <div className={s.dialogsItems}>
@@ -26,6 +33,8 @@ function Dialogs(props: DialogsType) {
             </div>
             <div className={s.messages}>
                 {messagesElements}
+                <input ref={addMessages}/>
+                <button onClick={onClickHandler}>Add messages</button>
             </div>
         </div>
     )
