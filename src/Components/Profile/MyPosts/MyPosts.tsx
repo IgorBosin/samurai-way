@@ -11,14 +11,12 @@ type MyPostsType = {
 
 function MyPosts(props: MyPostsType) {
 
-    const [posts, setPosts] = useState(props.posts)
-
     const newPostElement: LegacyRef<HTMLTextAreaElement> = React.createRef()
 
     const onClickHandler = () => {
         let text = newPostElement.current?.value
         if(text){props.addPost(text)}
-        setPosts(posts)
+        if(newPostElement.current?.value) newPostElement.current.value = ''
     }
 
     let postsElements = props.posts.map((p: { message: any; name: any; likesCount: any; img: any; }) =>

@@ -1,4 +1,5 @@
 import {v1} from "uuid";
+import {Render} from "../Render";
 
 export const state = {
     profilePage: {
@@ -48,5 +49,6 @@ export const addPost = (postMessage: string) => {
         img: 'https://i.ibb.co/6YM5Wht/igor.jpg',
     }
     state.profilePage.posts.unshift(newPost)
+    Render(state)
 }
 
