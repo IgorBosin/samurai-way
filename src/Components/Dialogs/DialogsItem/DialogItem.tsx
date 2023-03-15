@@ -3,7 +3,7 @@ import s from "../Dialogs.module.css";
 import React from "react";
 
 type DialogItemType = {
-    id: number
+    id: string
     dialogName: string
     avatar: string
 }

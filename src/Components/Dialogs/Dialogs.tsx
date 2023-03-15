@@ -10,7 +10,7 @@ type DialogsType = {
 
 function Dialogs(props: DialogsType) {
 
-    let dialogsElements = props.data.dialogs.map((d: { name: string; id: number; avatar: string }) =>
+    let dialogsElements = props.data.dialogs.map((d: { name: string; id: string; avatar: string }) =>
         <DialogItem
             dialogName={d.name}
             id={d.id}

@@ -10,18 +10,18 @@ import Settings from "./Components/Settings/Settings";
 import Music from "./Components/Music/Music";
 
 export type messagesType = {
-    id: number
+    id: string
     message: string
 }
 
 export type dialogsType = {
-    id: number
+    id: string
     name: string
     avatar: string
 }
 
 export type postsType = {
-    id: number
+    id: string
     message: string
     name: string
     likesCount: number
@@ -45,6 +45,7 @@ export type StateType = {
 
 export type AppType = {
     state: StateType
+    addPost:(postMessage: string)=>void
 }
 
 function App(props: AppType) {
@@ -54,7 +55,7 @@ function App(props: AppType) {
                 <Header/>
                 <Navbar sidebar={props.state.sidebar}/>
                 <div className='app-wrapper-content'>
-                    <Route path='/profile' render={() => <Profile posts={props.state.profilePage}/>}/>
+                    <Route path='/profile' render={() => <Profile posts={props.state.profilePage} addPost={props.addPost}/>}/>
                     <Route path='/dialog' render={() => <Dialogs data={props.state.dialogsPage}/>}/>
                     <Route path='/settings' render={() => <Settings/>}/>
                     <Route path='/news' render={() => <News/>}/>

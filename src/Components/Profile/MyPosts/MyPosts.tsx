@@ -1,19 +1,24 @@
-import React, {LegacyRef} from "react";
+import React, {LegacyRef, useState} from "react";
 import s from "./MyPosts.module.css";
 import Post from "./Post/Post";
 import {postsType} from "../../../App";
+import {addPost} from "../../../Redux/state";
 
 type MyPostsType = {
     posts: postsType[]
+    addPost: (postMessage: string) => void
 }
 
 function MyPosts(props: MyPostsType) {
+
+    const [posts, setPosts] = useState(props.posts)
 
     const newPostElement: LegacyRef<HTMLTextAreaElement> = React.createRef()
 
     const onClickHandler = () => {
         let text = newPostElement.current?.value
-        alert(text)
+        if(text){props.addPost(text)}
+        setPosts(posts)
     }
 
     let postsElements = props.posts.map((p: { message: any; name: any; likesCount: any; img: any; }) =>
