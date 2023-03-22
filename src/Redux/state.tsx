@@ -1,5 +1,9 @@
 import {v1} from "uuid";
-import {Render} from "../Render";
+import {StateType} from "../App";
+
+let reRenderTree = () => {
+    console.log('hi')
+}
 
 export const state = {
     profilePage: {
@@ -51,10 +55,14 @@ export const addPost = () => {
     }
     state.profilePage.posts.unshift(newPost)
     state.profilePage.newPostText = ''
-    Render(state)
+    reRenderTree() // вызов из индекс, но индекс сюда не импортируем
 }
 
 export const updateNewPostText = (newText: string) => {
     state.profilePage.newPostText = newText
-    Render(state)
+    reRenderTree() // вызов из индекс.тсх, но индекс.тсх сюда не импортируем
+}
+
+export const subscribe = (observer: () => void) => {
+    reRenderTree = observer
 }
