@@ -19,6 +19,7 @@ export const state = {
                 img: 'https://i.ibb.co/6YM5Wht/igor.jpg',
             },
         ],
+        newPostText: ''
     },
     dialogsPage: {
         messages: [
@@ -40,15 +41,20 @@ export const state = {
     ]
 }
 
-export const addPost = (postMessage: string) => {
+export const addPost = () => {
     const newPost = {
         id: v1(),
-        message: postMessage,
+        message: state.profilePage.newPostText,
         name: 'Igor',
         likesCount: 777,
         img: 'https://i.ibb.co/6YM5Wht/igor.jpg',
     }
     state.profilePage.posts.unshift(newPost)
+    state.profilePage.newPostText = ''
     Render(state)
 }
 
+export const updateNewPostText = (newText: string) => {
+    state.profilePage.newPostText = newText
+    Render(state)
+}

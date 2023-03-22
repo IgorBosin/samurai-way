@@ -5,14 +5,19 @@ import {ProfilePageType} from "../../App";
 
 type ProfilePropsType = {
     posts: ProfilePageType
-    addPost: (postMessage: string)=>void
+    addPost: (postMessage: string) => void
+    updateNewPostText: (newText: string) => void
 }
 
 function Profile(props: ProfilePropsType) {
     return (
         <div>
             <ProfileInfo/>
-            <MyPosts addPost={props.addPost} posts={props.posts.posts}/>
+            <MyPosts
+                updateNewPostText={props.updateNewPostText}
+                newPostText={props.posts.newPostText}
+                addPost={props.addPost}
+                posts={props.posts.posts}/>
         </div>
     )
 }
