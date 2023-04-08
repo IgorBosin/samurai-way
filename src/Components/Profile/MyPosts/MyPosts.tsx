@@ -5,9 +5,10 @@ import {postsType} from "../../../App";
 
 type MyPostsType = {
     posts: postsType[]
-    addPost: (postMessage: string) => void
-    updateNewPostText: (newText: string) => void
+    // addPost: (postMessage: string) => void
+    // updateNewPostText: (newText: string) => void
     newPostText: string
+    dispatch: (action: { type: string, newText:string })=>void
 }
 
 function MyPosts(props: MyPostsType) {
@@ -18,15 +19,16 @@ function MyPosts(props: MyPostsType) {
         // let text = newPostElement.current?.value
         // if(text){props.addPost(text)}
         // if(newPostElement.current?.value) newPostElement.current.value = ''
-        props.addPost(props.newPostText)
+        props.dispatch({type:'ADD-POST', newText:''})
         // props.updateNewPostText('')
     }
 
     const onPostChange = (e:ChangeEvent<HTMLTextAreaElement>) => {
-        props.updateNewPostText(e.currentTarget.value)
+        const action = {type: 'UPDATE-NEW-POST-TEXT', newText: e.currentTarget.value};
+        props.dispatch(action)
     }
 
-    let postsElements = props.posts.map((p: { message: any; name: any; likesCount: any; img: any; }) =>
+    let postsElements = props.posts.map((p: { message: string; name: string; likesCount: number; img: string; }) =>
         <Post messages={p.message} name={p.name} likesCount={p.likesCount} img={p.img}/>)
 
     return (

@@ -1,5 +1,10 @@
 import {v1} from "uuid";
 
+type ActionType = {
+    type: string
+    newText: string
+}
+
 export const store = {
     _state: {
         profilePage: {
@@ -40,12 +45,17 @@ export const store = {
             {id: v1(), name: 'Leha', avatar: 'https://postel24.ru/image/cache/no_image-1000x1000.png'},
         ]
     },
+    _callSubscriber() {
+    },
+
     getState() {
         return this._state
     },
-    _callSubscriber() {   },
-    addPost() {
-        debugger
+    subscribe(observer: () => void) { // функция вызвалась при загрузке приложения, изменив
+        this._callSubscriber = observer // функцию reRenderTree, т.е. заменив её на rerenderEntireTree
+    },
+
+    _addPost() {
         const newPost = {
             id: v1(),
             message: this._state.profilePage.newPostText,
@@ -57,13 +67,19 @@ export const store = {
         this._state.profilePage.newPostText = ''
         this._callSubscriber() // вызов из индекс, но индекс сюда не импортируем
     },
-    updateNewPostText(newText: string) {
-        debugger
+    _updateNewPostText(newText: string) {
         this._state.profilePage.newPostText = newText
         this._callSubscriber() // вызов из индекс.тсх, но индекс.тсх сюда не импортируем
     },
-    subscribe(observer: () => void) { // функция вызвалась при загрузке приложения, изменив
-        this._callSubscriber = observer // функцию reRenderTree, т.е. заменив её на rerenderEntireTree
+
+    dispatch(action: ActionType) {
+        if (action.type === 'ADD-POST') {
+            this._addPost()
+        } else if (action.type === 'UPDATE-NEW-POST-TEXT') {
+            this._updateNewPostText(action.newText)
+            // this._state.profilePage.newPostText = action.newText
+            // this._callSubscriber() // вызов из индекс.тсх, но индекс.тсх сюда не импортируем
+        }
     },
 }
 
