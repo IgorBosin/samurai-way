@@ -9,7 +9,6 @@ type DialogItemType = {
 }
 
 export function DialogItem(props: DialogItemType) {
-    debugger
     return (
         <div>
             <img style={{width:'15px'}} src={props.avatar} alt=""/>

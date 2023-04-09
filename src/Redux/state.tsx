@@ -1,9 +1,9 @@
 import {v1} from "uuid";
 
-type ActionType = {
-    type: string
-    newText: string
-}
+const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT';
+const ADD_POST = 'ADD-POST';
+const UPDATE_NEW_MESSAGE_TEXT = 'UPDATE-NEW-MESSAGE-TEXT';
+const ADD_MESSAGE = 'ADD-MESSAGE';
 
 export const store = {
     _state: {
@@ -38,6 +38,7 @@ export const store = {
                 {id: v1(), name: 'Miha', avatar: 'https://postel24.ru/image/cache/no_image-1000x1000.png'},
                 {id: v1(), name: 'Yura', avatar: 'https://postel24.ru/image/cache/no_image-1000x1000.png'},
             ],
+            newMessageText: ''
         },
         sidebar: [
             {id: v1(), name: 'Maria', avatar: 'https://postel24.ru/image/cache/no_image-1000x1000.png'},
@@ -71,19 +72,54 @@ export const store = {
         this._state.profilePage.newPostText = newText
         this._callSubscriber() // вызов из индекс.тсх, но индекс.тсх сюда не импортируем
     },
+    _updateNewMessageText(newTextMessage: string) {
+        this._state.dialogsPage.newMessageText = newTextMessage
+        this._callSubscriber()
+    },
+    _addMessage() {
+        const newMessage = {id: v1(), message: this._state.dialogsPage.newMessageText}
+        this._state.dialogsPage.messages.unshift(newMessage)
+        this._state.dialogsPage.newMessageText = ''
+        this._callSubscriber()
+    },
 
-    dispatch(action: ActionType) {
-        if (action.type === 'ADD-POST') {
+    dispatch(action: Actions) {
+        if (action.type === ADD_POST) {
             this._addPost()
-        } else if (action.type === 'UPDATE-NEW-POST-TEXT') {
+        } else if (action.type === UPDATE_NEW_POST_TEXT) {
             this._updateNewPostText(action.newText)
             // this._state.profilePage.newPostText = action.newText
             // this._callSubscriber() // вызов из индекс.тсх, но индекс.тсх сюда не импортируем
+        } else if (action.type === ADD_MESSAGE) {
+            this._addMessage()
+        } else if (action.type === UPDATE_NEW_MESSAGE_TEXT) {
+            this._updateNewMessageText(action.newText)
         }
     },
 }
+export type Actions = AddPostAction | UpdateNewPostTextAction | AddMessage | UpdateNewMessageTextAction
 
+type AddMessage = ReturnType<typeof addMessageActionCreator>
+type UpdateNewMessageTextAction = ReturnType<typeof updateNewMessageTextActiveCreator>
+type AddPostAction = ReturnType<typeof addPostActionCreator>
+type UpdateNewPostTextAction = ReturnType<typeof updateNewPostTextActionCreator>
 
+export const addPostActionCreator = () => ({
+    type: ADD_POST,
+} as const)
 
+export const updateNewPostTextActionCreator = (textPost: string) => ({
+    type: UPDATE_NEW_POST_TEXT,
+    newText: textPost
+} as const)
+
+export const addMessageActionCreator = () => ({
+    type: ADD_MESSAGE
+} as const)
+
+export const updateNewMessageTextActiveCreator = (textMessage: string) => ({
+    type: UPDATE_NEW_MESSAGE_TEXT,
+    newText: textMessage
+} as const)
 
 

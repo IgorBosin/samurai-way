@@ -8,6 +8,7 @@ import {BrowserRouter, Route} from "react-router-dom";
 import News from "./Components/News/News";
 import Settings from "./Components/Settings/Settings";
 import Music from "./Components/Music/Music";
+import {Actions} from "./Redux/state";
 
 export type messagesType = {
     id: string
@@ -36,6 +37,7 @@ export type ProfilePageType = {
 export type DialogsPageType = {
     messages: messagesType[]
     dialogs: dialogsType[]
+    newMessageText: string
 }
 
 export type StateType = {
@@ -46,7 +48,7 @@ export type StateType = {
 
 export type AppType = {
     state: StateType
-    dispatch: (action: { type: string, newText:string })=>void
+    dispatch: (action: Actions)=> void
     // addPost:(postMessage: string)=>void
     // updateNewPostText: (newText: string) => void
 }
@@ -59,7 +61,7 @@ function App(props: AppType) {
                 <Navbar sidebar={props.state.sidebar}/>
                 <div className='app-wrapper-content'>
                     <Route path='/profile' render={() => <Profile posts={props.state.profilePage} dispatch={props.dispatch}/>}/>
-                    <Route path='/dialog' render={() => <Dialogs data={props.state.dialogsPage}/>}/>
+                    <Route path='/dialog' render={() => <Dialogs data={props.state.dialogsPage} dispatch={props.dispatch}/>}/>
                     <Route path='/settings' render={() => <Settings/>}/>
                     <Route path='/news' render={() => <News/>}/>
                     <Route path='/music' render={() => <Music/>}/>

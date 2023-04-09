@@ -1,11 +1,13 @@
-import React, {LegacyRef} from "react";
+import React, {ChangeEvent, LegacyRef} from "react";
 import s from './Dialogs.module.css'
 import {DialogItem} from "./DialogsItem/DialogItem";
 import {Message} from "./Message/Message";
 import {DialogsPageType} from "../../App";
+import {Actions, addMessageActionCreator, updateNewMessageTextActiveCreator} from "../../Redux/state";
 
 type DialogsType = {
     data: DialogsPageType
+    dispatch: (action: Actions) => void
 }
 
 function Dialogs(props: DialogsType) {
@@ -25,6 +27,15 @@ function Dialogs(props: DialogsType) {
         alert(addMessages.current?.value)
     }
 
+    const onMessageChange = (e: ChangeEvent<HTMLInputElement>) => {
+        let action =updateNewMessageTextActiveCreator(e.currentTarget.value)
+        props.dispatch(action)
+    }
+
+    const addMessage = () => {
+        props.dispatch(addMessageActionCreator())
+    }
+
 
     return (
         <div className={s.dialogs}>
@@ -33,8 +44,8 @@ function Dialogs(props: DialogsType) {
             </div>
             <div className={s.messages}>
                 {messagesElements}
-                <input ref={addMessages}/>
-                <button onClick={onClickHandler}>Add messages</button>
+                <input value={props.data.newMessageText} onChange={onMessageChange} ref={addMessages}/>
+                <button onClick={addMessage}>Add messages</button>
             </div>
         </div>
     )
