@@ -1,15 +1,16 @@
-import React, {ChangeEvent, LegacyRef, useState} from "react";
+import React, {ChangeEvent, LegacyRef} from "react";
 import s from "./MyPosts.module.css";
 import Post from "./Post/Post";
 import {postsType} from "../../../App";
-import {Actions, addPostActionCreator, updateNewPostTextActionCreator} from "../../../Redux/state";
+import {dispatchActionsType} from "../../../Redux/store";
+import {addPostAC, updateNewPostTextAC} from "../../../Redux/profileReducer";
 
 type MyPostsType = {
     posts: postsType[]
     // addPost: (postMessage: string) => void
     // updateNewPostText: (newText: string) => void
     newPostText: string
-    dispatch: (action: Actions) => void
+    dispatch: (action: dispatchActionsType) => void
 }
 
 function MyPosts(props: MyPostsType) {
@@ -20,13 +21,12 @@ function MyPosts(props: MyPostsType) {
         // let text = newPostElement.current?.value
         // if(text){props.addPost(text)}
         // if(newPostElement.current?.value) newPostElement.current.value = ''
-        props.dispatch(addPostActionCreator())
+        props.dispatch(addPostAC())
         // props.updateNewPostText('')
     }
 
     const onPostChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        console.log('h')
-        let action = updateNewPostTextActionCreator( e.currentTarget.value)
+        let action = updateNewPostTextAC(e.currentTarget.value)
         props.dispatch(action)
     }
 

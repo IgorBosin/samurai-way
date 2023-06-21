@@ -3,11 +3,12 @@ import s from './Dialogs.module.css'
 import {DialogItem} from "./DialogsItem/DialogItem";
 import {Message} from "./Message/Message";
 import {DialogsPageType} from "../../App";
-import {Actions, addMessageActionCreator, updateNewMessageTextActiveCreator} from "../../Redux/state";
+import {dispatchActionsType} from "../../Redux/store";
+import {addMessageAC, updateNewMessageTextAC} from "../../Redux/dialogsReducer";
 
 type DialogsType = {
     data: DialogsPageType
-    dispatch: (action: Actions) => void
+    dispatch: (action: dispatchActionsType) => void
 }
 
 function Dialogs(props: DialogsType) {
@@ -22,18 +23,14 @@ function Dialogs(props: DialogsType) {
             dialogMessages={m.message}/>)
 
     const addMessages: LegacyRef<HTMLInputElement> = React.createRef()
-
-    const onClickHandler = () => {
-        alert(addMessages.current?.value)
-    }
-
+    
     const onMessageChange = (e: ChangeEvent<HTMLInputElement>) => {
-        let action =updateNewMessageTextActiveCreator(e.currentTarget.value)
+        let action = updateNewMessageTextAC(e.currentTarget.value)
         props.dispatch(action)
     }
 
     const addMessage = () => {
-        props.dispatch(addMessageActionCreator())
+        props.dispatch(addMessageAC())
     }
 
 

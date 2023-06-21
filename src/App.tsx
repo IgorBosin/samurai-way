@@ -8,7 +8,7 @@ import {BrowserRouter, Route} from "react-router-dom";
 import News from "./Components/News/News";
 import Settings from "./Components/Settings/Settings";
 import Music from "./Components/Music/Music";
-import {Actions} from "./Redux/state";
+import {dispatchActionsType} from "./Redux/store";
 
 export type messagesType = {
     id: string
@@ -48,7 +48,7 @@ export type StateType = {
 
 export type AppType = {
     state: StateType
-    dispatch: (action: Actions)=> void
+    dispatch: (action: dispatchActionsType)=> void
     // addPost:(postMessage: string)=>void
     // updateNewPostText: (newText: string) => void
 }
