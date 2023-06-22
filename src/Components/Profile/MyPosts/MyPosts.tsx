@@ -1,33 +1,27 @@
 import React, {ChangeEvent, LegacyRef} from "react";
 import s from "./MyPosts.module.css";
 import Post from "./Post/Post";
-import {postsType} from "../../../App";
+import {postsType, ProfilePageType} from "../../../App";
 import {dispatchActionsType} from "../../../Redux/state";
 import {addPostAC, updateNewPostTextAC} from "../../../Redux/profileReducer";
 
 type MyPostsType = {
     posts: postsType[]
-    // addPost: (postMessage: string) => void
-    // updateNewPostText: (newText: string) => void
     newPostText: string
-    dispatch: (action: dispatchActionsType) => void
+    addPost: () => void
+    onPostChange: (value: string) => void
 }
 
-function MyPosts(props: MyPostsType) {
+function MyPostsContainer(props: MyPostsType) {
 
     const newPostElement: LegacyRef<HTMLTextAreaElement> = React.createRef()
 
     const addPost = () => {
-        // let text = newPostElement.current?.value
-        // if(text){props.addPost(text)}
-        // if(newPostElement.current?.value) newPostElement.current.value = ''
-        props.dispatch(addPostAC())
-        // props.updateNewPostText('')
+        props.addPost()
     }
 
     const onPostChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        let action = updateNewPostTextAC(e.currentTarget.value)
-        props.dispatch(action)
+        props.onPostChange(e.currentTarget.value)
     }
 
     let postsElements = props.posts.map((p: { message: string; name: string; likesCount: number; img: string; }) =>
@@ -49,4 +43,4 @@ function MyPosts(props: MyPostsType) {
     )
 }
 
-export default MyPosts
+export default MyPostsContainer

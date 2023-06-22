@@ -46,16 +46,19 @@ export const profileReducer = (state: ProfilePageType = initialState, action: di
             return state
         }
         case ADD_POST: {
-            const newPost = {
-                id: v1(),
-                message: state.newPostText, // почему из стейта???????
-                name: 'Igor',
-                likesCount: 777,
-                img: 'https://i.ibb.co/6YM5Wht/igor.jpg',
-            }
-            state.posts.unshift(newPost)
-            state.newPostText = ''
-            return state
+            if (state.newPostText) {
+                const newPost = {
+                    id: v1(),
+                    message: state.newPostText, // почему из стейта???????
+                    name: 'Igor',
+                    likesCount: 777,
+                    img: 'https://i.ibb.co/6YM5Wht/igor.jpg',
+                }
+                state.posts.unshift(newPost)
+                state.newPostText = ''
+                return state
+            } else return state
+
         }
         default:
             return state

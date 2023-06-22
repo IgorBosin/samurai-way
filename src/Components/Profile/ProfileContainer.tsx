@@ -17,10 +17,9 @@ function Profile(props: ProfilePropsType) {
             <ProfileInfo/>
             <MyPostsContainer
                 dispatch={props.dispatch}
-                posts={props.posts}
                 // updateNewPostText={props.updateNewPostText}
                 // addPost={props.addPost}
-            />
+                posts={props.posts}/>
         </div>
     )
 }

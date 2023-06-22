@@ -2,37 +2,37 @@ import React, {ChangeEvent, LegacyRef} from "react";
 import s from './Dialogs.module.css'
 import {DialogItem} from "./DialogsItem/DialogItem";
 import {Message} from "./Message/Message";
-import {DialogsPageType} from "../../App";
-import {dispatchActionsType} from "../../Redux/state";
-import {addMessageAC, updateNewMessageTextAC} from "../../Redux/dialogsReducer";
+import {dialogsType, messagesType} from "../../App";
+
 
 type DialogsType = {
-    data: DialogsPageType
-    dispatch: (action: dispatchActionsType) => void
+    dialogs: dialogsType[]
+    messages: messagesType[]
+    newMessageText: string
+    changeMessage: (value: string) => void
+    addMessage: () => void
 }
 
 function Dialogs(props: DialogsType) {
 
-    let dialogsElements = props.data.dialogs.map((d: { name: string; id: string; avatar: string }) =>
+    let dialogsElements = props.dialogs.map((d: { name: string; id: string; avatar: string }) =>
         <DialogItem
             dialogName={d.name}
             id={d.id}
             avatar={d.avatar}/>)
-    let messagesElements = props.data.messages.map((m: { message: string }) =>
+    let messagesElements = props.messages.map((m: { message: string }) =>
         <Message
             dialogMessages={m.message}/>)
 
     const addMessages: LegacyRef<HTMLInputElement> = React.createRef()
 
     const onMessageChange = (e: ChangeEvent<HTMLInputElement>) => {
-        let action = updateNewMessageTextAC(e.currentTarget.value)
-        props.dispatch(action)
+        props.changeMessage(e.currentTarget.value)
     }
 
     const addMessage = () => {
-        props.dispatch(addMessageAC())
+        props.addMessage()
     }
-
 
     return (
         <div className={s.dialogs}>
@@ -41,7 +41,7 @@ function Dialogs(props: DialogsType) {
             </div>
             <div className={s.messages}>
                 {messagesElements}
-                <input value={props.data.newMessageText} onChange={onMessageChange} ref={addMessages}/>
+                <input value={props.newMessageText} onChange={onMessageChange} ref={addMessages}/>
                 <button onClick={addMessage}>Add messages</button>
             </div>
         </div>

@@ -3,12 +3,14 @@ import './App.css';
 import Header from "./Components/Header/Header";
 import Navbar from "./Components/Navbar/Navbar";
 import Profile from "./Components/Profile/Profile";
-import Dialogs from "./Components/Dialogs/Dialogs";
 import {BrowserRouter, Route} from "react-router-dom";
 import News from "./Components/News/News";
 import Settings from "./Components/Settings/Settings";
 import Music from "./Components/Music/Music";
 import {dispatchActionsType} from "./Redux/state";
+import {DialogsContainer} from "./Components/Dialogs/DialogsContainer";
+import {StoreContext} from "./StoreContext";
+import {store} from "./Redux/store";
 
 export type messagesType = {
     id: string
@@ -60,15 +62,14 @@ function App(props: AppType) {
                 <Header/>
                 <Navbar sidebar={props.state.sidebar}/>
                 <div className='app-wrapper-content'>
-                    <Route path='/profile' render={() => <Profile posts={props.state.profilePage} dispatch={props.dispatch}/>}/>
-                    <Route path='/dialog' render={() => <Dialogs data={props.state.dialogsPage} dispatch={props.dispatch}/>}/>
+                    <Route path='/profile' render={() => <Profile  posts={props.state.profilePage} dispatch={props.dispatch}/>}/>
+                    <Route path='/dialog' render={() => <DialogsContainer data={props.state} dispatch={props.dispatch}/>}/>
                     <Route path='/settings' render={() => <Settings/>}/>
                     <Route path='/news' render={() => <News/>}/>
                     <Route path='/music' render={() => <Music/>}/>
                 </div>
             </div>
         </BrowserRouter>
-
     );
 }
 

@@ -42,10 +42,13 @@ export const dialogsReducer = (state: DialogsPageType = initialState, action: di
             return state
         }
         case ADD_MESSAGE: {
-            const newMessage = {id: v1(), message: state.newMessageText}
-            state.messages.unshift(newMessage)
-            state.newMessageText = ''
-            return state
+            if (state.newMessageText) {
+                const newMessage = {id: v1(), message: state.newMessageText}
+                state.messages.unshift(newMessage)
+                state.newMessageText = ''
+                return state
+            } else return state
+
         }
         default:
             return state
