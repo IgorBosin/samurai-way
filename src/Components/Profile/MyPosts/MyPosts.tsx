@@ -2,7 +2,7 @@ import React, {ChangeEvent, LegacyRef} from "react";
 import s from "./MyPosts.module.css";
 import Post from "./Post/Post";
 import {postsType} from "../../../App";
-import {dispatchActionsType} from "../../../Redux/store";
+import {dispatchActionsType} from "../../../Redux/state";
 import {addPostAC, updateNewPostTextAC} from "../../../Redux/profileReducer";
 
 type MyPostsType = {

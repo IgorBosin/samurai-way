@@ -1,6 +1,6 @@
 import {v1} from "uuid";
 import {ProfilePageType} from "../App";
-import {dispatchActionsType} from "./store";
+import {dispatchActionsType} from "./state";
 
 const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT';
 const ADD_POST = 'ADD-POST';

@@ -3,7 +3,7 @@ import s from './Dialogs.module.css'
 import {DialogItem} from "./DialogsItem/DialogItem";
 import {Message} from "./Message/Message";
 import {DialogsPageType} from "../../App";
-import {dispatchActionsType} from "../../Redux/store";
+import {dispatchActionsType} from "../../Redux/state";
 import {addMessageAC, updateNewMessageTextAC} from "../../Redux/dialogsReducer";
 
 type DialogsType = {
@@ -23,7 +23,7 @@ function Dialogs(props: DialogsType) {
             dialogMessages={m.message}/>)
 
     const addMessages: LegacyRef<HTMLInputElement> = React.createRef()
-    
+
     const onMessageChange = (e: ChangeEvent<HTMLInputElement>) => {
         let action = updateNewMessageTextAC(e.currentTarget.value)
         props.dispatch(action)

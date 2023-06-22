@@ -4,6 +4,7 @@ import App from "./App";
 import {store} from "./Redux/store";
 
 const rerenderEntireTree = () => {
+    debugger
     ReactDOM.render(
         <App state={store.getState()}
              dispatch={store.dispatch.bind(store)}/>,
