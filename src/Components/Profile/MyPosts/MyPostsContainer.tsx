@@ -1,41 +1,37 @@
-import React, {ChangeEvent, LegacyRef} from "react";
-import s from "./MyPosts.module.css";
-import Post from "./Post/Post";
-import {postsType, ProfilePageType} from "../../../App";
-import {dispatchActionsType} from "../../../Redux/state";
-import {addPostAC, updateNewPostTextAC} from "../../../Redux/profileReducer";
+import React from "react";
+import {addPostAC, ProfilePageType, updateNewPostTextAC} from "../../../Redux/profileReducer";
 import MyPosts from "./MyPosts";
+import {connect} from "react-redux";
+import {AppRootState} from "../../../Redux/store";
+import {Dispatch} from "redux";
 
-type MyPostsType = {
-    posts: ProfilePageType
-    dispatch: (action: dispatchActionsType) => void
+type MapStatePropsType = {
+    profilePage: ProfilePageType
 }
 
-function MyPostsContainer(props: MyPostsType) {
-
-    const newPostElement: LegacyRef<HTMLTextAreaElement> = React.createRef()
-
-    const addPost = () => {
-        // let text = newPostElement.current?.value
-        // if(text){props.addPost(text)}
-        // if(newPostElement.current?.value) newPostElement.current.value = ''
-        props.dispatch(addPostAC())
-        // props.updateNewPostText('')
-    }
-
-    const onPostChange = (value: string) => {
-        let action = updateNewPostTextAC(value)
-        props.dispatch(action)
-    }
-
-    return (
-        <div>
-            <MyPosts posts={props.posts.posts}
-                     newPostText={props.posts.newPostText}
-                     addPost={addPost}
-                     onPostChange={onPostChange}/>
-        </div>
-    )
+type MapDispatchPropsType = {
+    addPost: () => void
+    onPostChange: (value: string) => void
 }
 
-export default MyPostsContainer
+export type MyPostsType = MapStatePropsType & MapDispatchPropsType
+
+const mapStateToProps = (state: AppRootState): MapStatePropsType => {
+    return {
+        profilePage: state.profilePage
+    }
+}
+
+const mapDispatchToProps = (dispatch: Dispatch): MapDispatchPropsType => {
+    return {
+        addPost: () => {
+            dispatch(addPostAC())
+        },
+        onPostChange: (value: string) => {
+            let action = updateNewPostTextAC(value)
+            dispatch(action)
+        }
+    }
+}
+
+export const MyPostsContainer = connect(mapStateToProps, mapDispatchToProps)(MyPosts)

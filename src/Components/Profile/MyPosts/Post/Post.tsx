@@ -6,7 +6,6 @@ type PostType = {
     img: string
     messages: string
     likesCount: number
-
 }
 
 function Post(props: PostType) {

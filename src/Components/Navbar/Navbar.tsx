@@ -1,14 +1,9 @@
 import React from "react";
 import s from './Navbar.module.css'
 import {NavbarItem} from "./NavbarItem/NavbarItem";
-import Friends from "./Friends/Friends";
-import {dialogsType} from "../../App";
+import {BestFriendsContainer} from "./Friends/BestFriendsContainer";
 
-type NavbarType = {
-    sidebar:dialogsType[]
-}
-
-function Navbar(props:NavbarType) {
+function Navbar() {
     return (
         <div className={s.nav}>
             <NavbarItem item='profile' name='Profile'/>
@@ -16,7 +11,7 @@ function Navbar(props:NavbarType) {
             <NavbarItem item='news' name='News'/>
             <NavbarItem item='music' name='Music'/>
             <NavbarItem item='settings' name='Settings'/>
-            <Friends sidebar={props.sidebar} />
+            <BestFriendsContainer/>
         </div>
     )
 }

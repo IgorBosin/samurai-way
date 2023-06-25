@@ -1,5 +1,4 @@
 import {v1} from "uuid";
-import {ProfilePageType} from "../App";
 import {dispatchActionsType} from "./state";
 
 const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT';
@@ -18,6 +17,21 @@ export const updateNewPostTextAC = (textPost: string) => ({
     type: UPDATE_NEW_POST_TEXT,
     newText: textPost
 } as const)
+
+
+export type postsType = {
+    id: string
+    message: string
+    name: string
+    likesCount: number
+    img: string
+}
+
+export type ProfilePageType = {
+    posts: postsType[]
+    newPostText: string
+}
+
 
 const initialState: ProfilePageType = {
     posts: [
@@ -42,8 +56,7 @@ const initialState: ProfilePageType = {
 export const profileReducer = (state: ProfilePageType = initialState, action: dispatchActionsType): ProfilePageType => {
     switch (action.type) {
         case UPDATE_NEW_POST_TEXT: {
-            state.newPostText = action.newText
-            return state
+            return {...state, newPostText: action.newText}
         }
         case ADD_POST: {
             if (state.newPostText) {
@@ -54,9 +67,7 @@ export const profileReducer = (state: ProfilePageType = initialState, action: di
                     likesCount: 777,
                     img: 'https://i.ibb.co/6YM5Wht/igor.jpg',
                 }
-                state.posts.unshift(newPost)
-                state.newPostText = ''
-                return state
+                return {...state, posts: [newPost, ...state.posts], newPostText: ''}
             } else return state
 
         }

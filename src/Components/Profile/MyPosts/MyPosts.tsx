@@ -1,18 +1,9 @@
 import React, {ChangeEvent, LegacyRef} from "react";
 import s from "./MyPosts.module.css";
 import Post from "./Post/Post";
-import {postsType, ProfilePageType} from "../../../App";
-import {dispatchActionsType} from "../../../Redux/state";
-import {addPostAC, updateNewPostTextAC} from "../../../Redux/profileReducer";
+import {MyPostsType} from "./MyPostsContainer";
 
-type MyPostsType = {
-    posts: postsType[]
-    newPostText: string
-    addPost: () => void
-    onPostChange: (value: string) => void
-}
-
-function MyPostsContainer(props: MyPostsType) {
+function MyPosts(props: MyPostsType) {
 
     const newPostElement: LegacyRef<HTMLTextAreaElement> = React.createRef()
 
@@ -24,14 +15,14 @@ function MyPostsContainer(props: MyPostsType) {
         props.onPostChange(e.currentTarget.value)
     }
 
-    let postsElements = props.posts.map((p: { message: string; name: string; likesCount: number; img: string; }) =>
-        <Post messages={p.message} name={p.name} likesCount={p.likesCount} img={p.img}/>)
+    let postsElements = props.profilePage.posts.map((p, index) =>
+        <Post key={index} messages={p.message} name={p.name} likesCount={p.likesCount} img={p.img}/>)
 
     return (
         <div className={s.postBlock}>
             <h3>My post</h3>
             <div>
-                <textarea value={props.newPostText} onChange={onPostChange} ref={newPostElement}/>
+                <textarea value={props.profilePage.newPostText} onChange={onPostChange} ref={newPostElement}/>
                 <div>
                     <button onClick={addPost}>Add post</button>
                 </div>
@@ -43,4 +34,4 @@ function MyPostsContainer(props: MyPostsType) {
     )
 }
 
-export default MyPostsContainer
+export default MyPosts

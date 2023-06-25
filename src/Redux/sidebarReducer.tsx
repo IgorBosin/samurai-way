@@ -1,6 +1,6 @@
-import {dialogsType} from "../App";
 import {v1} from "uuid";
 import {dispatchActionsType} from "./state";
+import {dialogsType} from "./dialogsReducer";
 
 export type sidebarReducerActionsType = {
     type: ''
