@@ -7,13 +7,13 @@ import {DialogsType} from "./DialogsContainer";
 function Dialogs(props: DialogsType) {
     const addMessages: LegacyRef<HTMLInputElement> = React.createRef()
 
-    let dialogsElements = props.dialogsPage.dialogs.map((d, index) =>
+    let dialogsElements = props.dialogs.map((d, index) =>
         <DialogItem
             key={index}
             dialogName={d.name}
             id={d.id}
             avatar={d.avatar}/>)
-    let messagesElements = props.dialogsPage.messages.map((m, index) =>
+    let messagesElements = props.messages.map((m, index) =>
         <Message
             key={index}
             dialogMessages={m.message}/>)
@@ -33,7 +33,7 @@ function Dialogs(props: DialogsType) {
             </div>
             <div className={s.messages}>
                 {messagesElements}
-                <input value={props.dialogsPage.newMessageText} onChange={onMessageChange} ref={addMessages}/>
+                <input value={props.newMessageText} onChange={onMessageChange} ref={addMessages}/>
                 <button onClick={addMessage}>Add messages</button>
             </div>
         </div>

@@ -15,14 +15,14 @@ function MyPosts(props: MyPostsType) {
         props.onPostChange(e.currentTarget.value)
     }
 
-    let postsElements = props.profilePage.posts.map((p, index) =>
+    let postsElements = props.posts.map((p, index) =>
         <Post key={index} messages={p.message} name={p.name} likesCount={p.likesCount} img={p.img}/>)
 
     return (
         <div className={s.postBlock}>
             <h3>My post</h3>
             <div>
-                <textarea value={props.profilePage.newPostText} onChange={onPostChange} ref={newPostElement}/>
+                <textarea value={props.newPostText} onChange={onPostChange} ref={newPostElement}/>
                 <div>
                     <button onClick={addPost}>Add post</button>
                 </div>

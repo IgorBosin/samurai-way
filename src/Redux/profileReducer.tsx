@@ -18,7 +18,6 @@ export const updateNewPostTextAC = (textPost: string) => ({
     newText: textPost
 } as const)
 
-
 export type postsType = {
     id: string
     message: string
@@ -31,7 +30,6 @@ export type ProfilePageType = {
     posts: postsType[]
     newPostText: string
 }
-
 
 const initialState: ProfilePageType = {
     posts: [
@@ -69,10 +67,8 @@ export const profileReducer = (state: ProfilePageType = initialState, action: di
                 }
                 return {...state, posts: [newPost, ...state.posts], newPostText: ''}
             } else return state
-
         }
         default:
             return state
-
     }
 }
