@@ -11,6 +11,7 @@ function Navbar() {
             <NavbarItem item='news' name='News'/>
             <NavbarItem item='music' name='Music'/>
             <NavbarItem item='settings' name='Settings'/>
+            <NavbarItem item='users' name={'Users'}/>
             <BestFriendsContainer/>
         </div>
     )

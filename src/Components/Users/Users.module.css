@@ -1,0 +1,74 @@
+.usersContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 400px;
+}
+
+.usersListContainer {
+    box-sizing: border-box;
+    display: flex;
+    border: solid 0.5px #768b9f;
+    border-radius: 10px;
+    height: 100px;
+    padding: 10px;
+    width: 400px;
+
+}
+
+.imgAndFollowcontainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    width: 200px;
+}
+
+.img {
+    width: 60px;
+    height: 70%;
+    border-radius: 50%;
+}
+
+.buttonFollow {
+    /*width: 100px;*/
+}
+
+.discriptionContainer {
+    padding: 5px;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    border: solid 2px black;
+    border-radius: 15px;
+
+}
+
+.nameAndTitle {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.name {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.title {
+    color: #414b53a1;
+}
+
+.locationContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-end;
+
+}
+
+.buttonMore {
+    margin: 10px;
+    width: 150px;
+    height: 50px;
+}

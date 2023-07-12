@@ -23,7 +23,6 @@ function Post(props: PostType) {
             <div>
                 <span>{props.likesCount} Likes </span>
             </div>
-
         </div>
     )
 }

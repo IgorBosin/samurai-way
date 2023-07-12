@@ -15,6 +15,8 @@ function MyPosts(props: MyPostsType) {
         props.onPostChange(e.currentTarget.value)
     }
 
+
+
     let postsElements = props.posts.map((p, index) =>
         <Post key={index} messages={p.message} name={p.name} likesCount={p.likesCount} img={p.img}/>)
 
