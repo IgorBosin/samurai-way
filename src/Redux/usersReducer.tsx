@@ -22,29 +22,25 @@ export const unfollowToUserAC = (id: string, isFollow: boolean) => ({
     isFollow,
 } as const)
 
-export const setUsersAC = (users:UsersPageType) => ({
+export const setUsersAC = (users: UsersType[]) => ({
     type: SET_USERS,
     users
 } as const)
 
-export type usersType = {
-    id: string
-    fullName: string
-    status: string
-    location: {
-        country: string
-        city: string
-    }
-    img: string
+export type UsersType = {
+    id: string,
+    name: string,
+    status: string,
+    photos: {
+        small: any,
+        large: any
+    },
     followed: boolean
 }
 
-export type UsersPageType = usersType[]
+const initialState: UsersType[] = []
 
-const initialState: UsersPageType = []
-
-
-export const usersReducer = (state: UsersPageType = initialState, action: dispatchActionsType): UsersPageType => {
+export const usersReducer = (state: UsersType[] = initialState, action: dispatchActionsType): UsersType[] => {
     switch (action.type) {
         case FOLLOW_TO_USER: {
             return state.map(el => el.id === action.id ? {...el, followed: action.isFollow} : el)

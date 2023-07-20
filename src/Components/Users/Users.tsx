@@ -1,18 +1,20 @@
 import s from './Users.module.css'
-import {UsersPageType} from "../../Redux/usersReducer";
+import avatarDefault from '../../assets/images/avatarDefault.png'
+import {UsersType} from "../../Redux/usersReducer";
+import {useEffect} from "react";
 
-type UsersType = {
-    users: UsersPageType
+type UsersComponentType = {
+    users: UsersType[]
     followOnUser: (userId: string, isFollow: boolean) => void
     unfollowOnUser: (userId: string, isFollow: boolean) => void
     setUsers: () => void
 }
 
-const Users = (props: UsersType) => {
+const Users = (props: UsersComponentType) => {
 
-    if (props.users.length === 0) {
+    useEffect(()=>{
         props.setUsers()
-    }
+    },[])
 
     const followOnUser = (userId: string) => {
         props.followOnUser(userId, false)
@@ -33,7 +35,7 @@ const Users = (props: UsersType) => {
                     <div key={el.id}>
                         <div className={s.usersListContainer}>
                             <div className={s.imgAndFollowcontainer}>
-                                <img className={s.img} src={el.img} alt="avatar"/>
+                                <img className={s.img} src={el.photos.small ? el.photos.small : avatarDefault } alt="avatar"/>
                                 {el.followed
                                     ? <button
                                         className={s.buttonFollow}
@@ -46,12 +48,12 @@ const Users = (props: UsersType) => {
                             </div>
                             <div className={s.discriptionContainer}>
                                 <div className={s.nameAndTitle}>
-                                    <div className={s.name}>{el.fullName}</div>
+                                    <div className={s.name}>{el.name}</div>
                                     <span className={s.title}>{el.status}</span>
                                 </div>
                                 <div className={s.locationContainer}>
-                                    <span>{el.location.country}</span>
-                                    <span>{el.location.city}</span>
+                                    <span>Russia</span>
+                                    <span>Perm</span>
                                 </div>
                             </div>
                         </div>
