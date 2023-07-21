@@ -1,8 +1,8 @@
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootState} from "../../Redux/store";
-import Users from "./Users";
 import {followToUserAC, setUsersAC, unfollowToUserAC, UsersType} from "../../Redux/usersReducer";
 import axios from "axios";
+import Users from "./Users";
 
 type getUsersResponsType = {
     items: [

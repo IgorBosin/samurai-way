@@ -1,7 +1,7 @@
 import s from './Users.module.css'
 import avatarDefault from '../../assets/images/avatarDefault.png'
 import {UsersType} from "../../Redux/usersReducer";
-import {useEffect} from "react";
+import React from "react";
 
 type UsersComponentType = {
     users: UsersType[]
@@ -10,59 +10,66 @@ type UsersComponentType = {
     setUsers: () => void
 }
 
-const Users = (props: UsersComponentType) => {
+class Users extends React.Component<UsersComponentType, UsersType[]> {
 
-    useEffect(()=>{
-        props.setUsers()
-    },[])
-
-    const followOnUser = (userId: string) => {
-        props.followOnUser(userId, false)
+    constructor(props: any) {
+        super(props);
+        console.log('render constructor')
+        this.props.setUsers()
     }
 
-    const unfollowOnUser = (userId: string) => {
-        props.unfollowOnUser(userId, true)
+    followOnUser = (userId: string) => {
+        this.props.followOnUser(userId, false)
     }
 
-    const setUsers = () => {
-        props.setUsers()
+    unfollowOnUser = (userId: string) => {
+        this.props.unfollowOnUser(userId, true)
     }
 
-    return (
-        <div className={s.usersContainer}>
-            {props.users.map(el => {
-                return (
-                    <div key={el.id}>
-                        <div className={s.usersListContainer}>
-                            <div className={s.imgAndFollowcontainer}>
-                                <img className={s.img} src={el.photos.small ? el.photos.small : avatarDefault } alt="avatar"/>
-                                {el.followed
-                                    ? <button
-                                        className={s.buttonFollow}
-                                        onClick={() => followOnUser(el.id)}>Follow
-                                    </button>
-                                    : <button
-                                        className={s.buttonFollow}
-                                        onClick={() => unfollowOnUser(el.id)}>Unfollow
-                                    </button>}
-                            </div>
-                            <div className={s.discriptionContainer}>
-                                <div className={s.nameAndTitle}>
-                                    <div className={s.name}>{el.name}</div>
-                                    <span className={s.title}>{el.status}</span>
+    setUsers = () => {
+        this.props.setUsers()
+    }
+
+    render() {
+        console.log('render users')
+        return (
+            <div className={s.usersContainer}>
+                {
+                    this.props.users.map(el => {
+                        return (
+                            <div key={el.id}>
+                                <div className={s.usersListContainer}>
+                                    <div className={s.imgAndFollowcontainer}>
+                                        <img className={s.img} src={el.photos.small ? el.photos.small : avatarDefault}
+                                             alt="avatar"/>
+                                        {el.followed
+                                            ? <button
+                                                className={s.buttonFollow}
+                                                onClick={() => this.followOnUser(el.id)}>Follow
+                                            </button>
+                                            : <button
+                                                className={s.buttonFollow}
+                                                onClick={() => this.unfollowOnUser(el.id)}>Unfollow
+                                            </button>}
+                                    </div>
+                                    <div className={s.discriptionContainer}>
+                                        <div className={s.nameAndTitle}>
+                                            <div className={s.name}>{el.name}</div>
+                                            <span className={s.title}>{el.status}</span>
+                                        </div>
+                                        <div className={s.locationContainer}>
+                                            <span>Russia</span>
+                                            <span>Perm</span>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div className={s.locationContainer}>
-                                    <span>Russia</span>
-                                    <span>Perm</span>
-                                </div>
                             </div>
-                        </div>
-                    </div>
-                )
-            })}
-            <button className={s.buttonMore} onClick={setUsers}>MORE USERS</button>
-        </div>
-    );
-};
+                        )
+                    })}
+                <button className={s.buttonMore} onClick={this.setUsers}>MORE USERS</button>
+            </div>
+        );
+    }
+}
 
 export default Users;
