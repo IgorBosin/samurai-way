@@ -12,9 +12,13 @@ type UsersComponentType = {
 
 class Users extends React.Component<UsersComponentType, UsersType[]> {
 
-    constructor(props: any) {
-        super(props);
-        console.log('render constructor')
+    // constructor(props: any) {
+    //     super(props);
+    //     console.log('render constructor')
+    //     this.props.setUsers()
+    // } // pзаменили на componentDidMount()
+
+    componentDidMount() {
         this.props.setUsers()
     }
 
