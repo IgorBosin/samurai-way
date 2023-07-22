@@ -1,3 +1,5 @@
+import {getUsersResponsType} from "../Components/Users/UsersContainer";
+
 export type UsersReducerActionType = FollowToUserACType
     | ShowMoreUsersACType
     | UnfollowToUserACType
@@ -15,25 +17,21 @@ export const followToUserAC = (id: string, isFollow: boolean) => ({
     id,
     isFollow,
 } as const)
-
 export const unfollowToUserAC = (id: string, isFollow: boolean) => ({
     type: 'UNFOLLOW_TO_USER',
     id,
     isFollow,
 } as const)
-
 export const setUsersAC = (users: UsersType[], totalCount: number) => ({
     type: 'SET_USERS',
     users,
     totalCount,
 } as const)
-
 export const changePageUsersAC = (users: UsersType[], currentPage: number) => ({
     type: 'CHANGE-PAGE-USERS',
     users,
     currentPage
 } as const)
-
 export const setMoreUsersAC = (users: UsersType[]) => ({
     type: 'SET_MORE_USERS',
     users,
@@ -50,10 +48,7 @@ export type UsersType = {
     followed: boolean
 }
 
-export type UsersPageType = {
-    items: UsersType[],
-    totalCount: number,
-    error: any
+export type UsersPageType = getUsersResponsType & {
     pageSize: number
     currentPage: number
 }
@@ -102,7 +97,6 @@ export const usersReducer =
                     ...state, items: [...state.items, ...action.users], currentPage: state.currentPage + 1
                 }
             }
-
             default:
                 return state
         }

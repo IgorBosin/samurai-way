@@ -1,88 +1,98 @@
-import {useDispatch, useSelector} from "react-redux";
-import {AppRootState} from "../../Redux/store";
+import React from 'react';
 import {
     changePageUsersAC,
-    followToUserAC, setMoreUsersAC,
+    followToUserAC,
+    setMoreUsersAC,
     setUsersAC,
     unfollowToUserAC,
     UsersPageType,
+    UsersType
 } from "../../Redux/usersReducer";
+import {AppRootState} from "../../Redux/store";
 import axios from "axios";
+import {Dispatch} from "redux";
 import Users from "./Users";
+import {connect} from "react-redux";
 
-type getUsersResponsType = {
-    items: [
-        {
-            id: string,
-            name: string,
-            status: string,
-            photos: {
-                small: any,
-                large: any
-            },
-            followed: boolean
+export type getUsersResponsType = {
+    items: UsersType[]
+    totalCount: number
+    error: string
+}
+type UsersAPIType = MapDispatchPropsType & MapStatePropsType
+
+const instance = axios.create({
+    baseURL: 'https://social-network.samuraijs.com/api/1.0/',
+    withCredentials: true,
+})
+
+class UsersAPI extends React.Component<UsersAPIType, UsersPageType> {
+    componentDidMount() {
+        instance.get<getUsersResponsType>(`users?count=${this.props.users.pageSize}&page=${this.props.users.currentPage}`)
+            .then((res) => {
+                this.props.setUsers(res.data.items, res.data.totalCount)
+            })
+    }
+
+    render() {
+        const setMoreUsers = () => {
+            instance.get<getUsersResponsType>(`users?count=${this.props.users.pageSize}&page=${this.props.users.currentPage + 1}`)
+                .then((res) => {
+                    this.props.setMoreUsers(res.data.items)
+                })
         }
-    ],
-    totalCount: number,
-    error: any
+        const changePage = (currentPage: number) => {
+            instance.get<getUsersResponsType>(`users?count=${this.props.users.pageSize}&page=${currentPage}`)
+                .then((res) => {
+                    this.props.changePage(res.data.items, currentPage)
+                })
+        }
+        return (
+            <Users
+                users={this.props.users}
+                followOnUser={this.props.followOnUser}
+                unfollowOnUser={this.props.unfollowOnUser}
+                changePage={changePage}
+                setMoreUsers={setMoreUsers}/>
+        )
+    }
 }
 
-const UsersContainer = () => {
+type MapStatePropsType = {
+    users: UsersPageType
+}
+type MapDispatchPropsType = {
+    followOnUser: (userId: string, isFollow: boolean) => void
+    unfollowOnUser: (userId: string, isFollow: boolean) => void
+    setUsers: (items: UsersType[], totalCount: number) => void
+    setMoreUsers: (items: UsersType[]) => void
+    changePage: (items: UsersType[], currentPage: number) => void
+}
 
-    const users = useSelector<AppRootState, UsersPageType>(state => state.usersPage)
-    const dispatch = useDispatch()
-
-    const followOnUser = (userId: string, isFollow: boolean) => {
-        dispatch(followToUserAC(userId, isFollow))
+const mapStateToProps = (state: AppRootState): MapStatePropsType => {
+    return {
+        users: state.usersPage
     }
+}
 
-    const unfollowOnUser = (userId: string, isFollow: boolean) => {
-        dispatch(unfollowToUserAC(userId, isFollow))
+const mapDispatchToProps = (dispatch: Dispatch): MapDispatchPropsType => {
+    return {
+        followOnUser: (userId: string, isFollow: boolean) => {
+            dispatch(followToUserAC(userId, isFollow))
+        },
+        unfollowOnUser: (userId: string, isFollow: boolean) => {
+            dispatch(unfollowToUserAC(userId, isFollow))
+        },
+        setUsers: (items: UsersType[], totalCount: number) => {
+            dispatch(setUsersAC(items, totalCount))
+        },
+        setMoreUsers: (items: UsersType[]) => {
+            dispatch(setMoreUsersAC(items))
+        },
+        changePage: (items: UsersType[], currentPage: number) => {
+            dispatch(changePageUsersAC(items, currentPage))
+        }
     }
+}
 
-    const settings = {
-        withCredentials: true,
-    }
-
-    const instance = axios.create({
-        baseURL: 'https://social-network.samuraijs.com/api/1.0/',
-        ...settings
-    })
-
-    const setUsers = () => {
-        instance.get<getUsersResponsType>(`users?count=${users.pageSize}&page=${users.currentPage}`, settings)
-            .then((res) => {
-                dispatch(setUsersAC(res.data.items, res.data.totalCount))
-            })
-    }
-
-    const setMoreUsers = () => {
-        instance.get<getUsersResponsType>(`users?count=${users.pageSize}&page=${users.currentPage + 1}`, settings)
-            .then((res) => {
-                dispatch(setMoreUsersAC(res.data.items))
-            })
-    }
-
-    const changePage = (currentPage: number) => {
-        instance.get<getUsersResponsType>(`users?count=${users.pageSize}&page=${currentPage}`, settings)
-            .then((res) => {
-                dispatch(changePageUsersAC(res.data.items, currentPage))
-            })
-    }
-
-    return (
-        <div>
-            <Users
-                setMoreUsers={setMoreUsers}
-                // users={users.items}
-                users={users}
-                changePage={changePage}
-                // currentPage={users.currentPage}
-                followOnUser={followOnUser}
-                unfollowOnUser={unfollowOnUser}
-                setUsers={setUsers}/>
-        </div>
-    );
-};
-
-export default UsersContainer;
+export const UsersContainer = connect(mapStateToProps, mapDispatchToProps)(UsersAPI)
