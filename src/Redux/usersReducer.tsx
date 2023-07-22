@@ -1,30 +1,42 @@
-import {dispatchActionsType} from "./state";
-
-const FOLLOW_TO_USER = 'FOLLOW_TO_USER';
-const UNFOLLOW_TO_USER = 'UNFOLLOW_TO_USER';
-const SET_USERS = 'SET_USERS';
-
-export type UsersReducerActionType = FollowToUserACType | ShowMoreUsersACType | UnfollowToUserACType
+export type UsersReducerActionType = FollowToUserACType
+    | ShowMoreUsersACType
+    | UnfollowToUserACType
+    | ChangePageUsersACType
+    | SetMoreUsersACType
 
 type FollowToUserACType = ReturnType<typeof followToUserAC>
 type UnfollowToUserACType = ReturnType<typeof unfollowToUserAC>
 type ShowMoreUsersACType = ReturnType<typeof setUsersAC>
+type ChangePageUsersACType = ReturnType<typeof changePageUsersAC>
+type SetMoreUsersACType = ReturnType<typeof setMoreUsersAC>
 
 export const followToUserAC = (id: string, isFollow: boolean) => ({
-    type: FOLLOW_TO_USER,
+    type: 'FOLLOW_TO_USER',
     id,
     isFollow,
 } as const)
 
 export const unfollowToUserAC = (id: string, isFollow: boolean) => ({
-    type: UNFOLLOW_TO_USER,
+    type: 'UNFOLLOW_TO_USER',
     id,
     isFollow,
 } as const)
 
-export const setUsersAC = (users: UsersType[]) => ({
-    type: SET_USERS,
-    users
+export const setUsersAC = (users: UsersType[], totalCount: number) => ({
+    type: 'SET_USERS',
+    users,
+    totalCount,
+} as const)
+
+export const changePageUsersAC = (users: UsersType[], currentPage: number) => ({
+    type: 'CHANGE-PAGE-USERS',
+    users,
+    currentPage
+} as const)
+
+export const setMoreUsersAC = (users: UsersType[]) => ({
+    type: 'SET_MORE_USERS',
+    users,
 } as const)
 
 export type UsersType = {
@@ -38,20 +50,60 @@ export type UsersType = {
     followed: boolean
 }
 
-const initialState: UsersType[] = []
-
-export const usersReducer = (state: UsersType[] = initialState, action: dispatchActionsType): UsersType[] => {
-    switch (action.type) {
-        case FOLLOW_TO_USER: {
-            return state.map(el => el.id === action.id ? {...el, followed: action.isFollow} : el)
-        }
-        case UNFOLLOW_TO_USER: {
-            return state.map(el => el.id === action.id ? {...el, followed: action.isFollow} : el)
-        }
-        case SET_USERS: {
-            return [...state, ...action.users]
-        }
-        default:
-            return state
-    }
+export type UsersPageType = {
+    items: UsersType[],
+    totalCount: number,
+    error: any
+    pageSize: number
+    currentPage: number
 }
+
+const initialState: UsersPageType = {
+    items: [],
+    error: '',
+    pageSize: 5,
+    totalCount: 0,
+    currentPage: 1
+}
+
+export const usersReducer =
+    (state: UsersPageType = initialState, action: UsersReducerActionType): UsersPageType => {
+        switch (action.type) {
+            case 'FOLLOW_TO_USER': {
+                return {
+                    ...state, items: state.items.map(el => el.id === action.id
+                        ? {...el, followed: action.isFollow}
+                        : el)
+                }
+            }
+            case 'UNFOLLOW_TO_USER': {
+                return {
+                    ...state, items: state.items.map(el => el.id === action.id
+                        ? {...el, followed: action.isFollow}
+                        : el)
+                }
+            }
+            case 'SET_USERS': {
+                return {
+                    ...state,
+                    items: [...state.items, ...action.users],
+                    totalCount: action.totalCount,
+                }
+            }
+            case "CHANGE-PAGE-USERS": {
+                return {
+                    ...state,
+                    items: [...action.users],
+                    currentPage: action.currentPage
+                }
+            }
+            case "SET_MORE_USERS": {
+                return {
+                    ...state, items: [...state.items, ...action.users], currentPage: state.currentPage + 1
+                }
+            }
+
+            default:
+                return state
+        }
+    }

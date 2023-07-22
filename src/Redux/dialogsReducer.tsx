@@ -1,5 +1,4 @@
 import {v1} from "uuid";
-import {dispatchActionsType} from "./state";
 
 export type dialogsReeducerActionsType = AddMessageActionType | UpdateNewMessageTextActionType
 type AddMessageActionType = ReturnType<typeof addMessageAC>
@@ -46,7 +45,7 @@ const initialState = {
 // }
 export type DialogsPageType = typeof initialState // автомат.типизация. Необходимо типизировать объекты\массивы (as const)
 
-export const dialogsReducer = (state: DialogsPageType = initialState, action: dispatchActionsType): DialogsPageType => {
+export const dialogsReducer = (state: DialogsPageType = initialState, action: dialogsReeducerActionsType): DialogsPageType => {
     switch (action.type) {
         case 'UPDATE-NEW-MESSAGE-TEXT': {
             return {...state, newMessageText: action.newText}

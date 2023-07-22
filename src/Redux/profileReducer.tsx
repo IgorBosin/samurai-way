@@ -1,5 +1,4 @@
 import {v1} from "uuid";
-import {dispatchActionsType} from "./state";
 
 const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT';
 const ADD_POST = 'ADD-POST';
@@ -51,7 +50,7 @@ const initialState: ProfilePageType = {
     newPostText: ''
 }
 
-export const profileReducer = (state: ProfilePageType = initialState, action: dispatchActionsType): ProfilePageType => {
+export const profileReducer = (state: ProfilePageType = initialState, action: ProfileReducerActionType): ProfilePageType => {
     switch (action.type) {
         case UPDATE_NEW_POST_TEXT: {
             return {...state, newPostText: action.newText}

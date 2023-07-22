@@ -1,22 +1,26 @@
 import s from './Users.module.css'
 import avatarDefault from '../../assets/images/avatarDefault.png'
-import {UsersType} from "../../Redux/usersReducer";
+import {UsersPageType, UsersType} from "../../Redux/usersReducer";
 import React from "react";
 
 type UsersComponentType = {
-    users: UsersType[]
+    // users: UsersType[]
+    users: UsersPageType
     followOnUser: (userId: string, isFollow: boolean) => void
     unfollowOnUser: (userId: string, isFollow: boolean) => void
     setUsers: () => void
+    // currentPage: number
+    changePage: (currentPage: number) => void
+    setMoreUsers: () => void
 }
 
 class Users extends React.Component<UsersComponentType, UsersType[]> {
 
     // constructor(props: any) {
     //     super(props);
-    //     console.log('render constructor')
+    //     console.log('render constructor') // не срабатывает при follow/unfollow
     //     this.props.setUsers()
-    // } // pзаменили на componentDidMount()
+    // } // заменили на componentDidMount()
 
     componentDidMount() {
         this.props.setUsers()
@@ -31,20 +35,34 @@ class Users extends React.Component<UsersComponentType, UsersType[]> {
     }
 
     setUsers = () => {
-        this.props.setUsers()
+        this.props.setMoreUsers()
+    }
+
+    changePage = (currentPage: number) => {
+        this.props.changePage(currentPage)
     }
 
     render() {
         console.log('render users')
+
+        const pagesToShow = 10;
+
+        const renderPages = () => {
+            return Array.from({length: pagesToShow},
+                (item, index) => index + this.props.users.currentPage)
+        };
+
         return (
-            <div className={s.usersContainer}>
-                {
-                    this.props.users.map(el => {
+            <div>
+                <div className={s.usersContainer}>
+                    {this.props.users.items.map(el => {
                         return (
                             <div key={el.id}>
                                 <div className={s.usersListContainer}>
                                     <div className={s.imgAndFollowcontainer}>
-                                        <img className={s.img} src={el.photos.small ? el.photos.small : avatarDefault}
+                                        <img className={s.img} src={el.photos.small
+                                            ? el.photos.small
+                                            : avatarDefault}
                                              alt="avatar"/>
                                         {el.followed
                                             ? <button
@@ -70,7 +88,14 @@ class Users extends React.Component<UsersComponentType, UsersType[]> {
                             </div>
                         )
                     })}
-                <button className={s.buttonMore} onClick={this.setUsers}>MORE USERS</button>
+                    <button className={s.buttonMore} onClick={this.setUsers}>MORE USERS</button>
+                </div>
+                {renderPages().map(el => (
+                    <button key={el}
+                            disabled={el === this.props.users.currentPage}
+                            onClick={() => this.changePage(el)}>{el}
+                    </button>
+                ))}
             </div>
         );
     }

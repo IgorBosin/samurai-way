@@ -1,5 +1,4 @@
 import {v1} from "uuid";
-import {dispatchActionsType} from "./state";
 import {dialogsType} from "./dialogsReducer";
 
 export type sidebarReducerActionsType = {
@@ -12,7 +11,7 @@ const initialState: dialogsType[] = [
     {id: v1(), name: 'Leha', avatar: 'https://postel24.ru/image/cache/no_image-1000x1000.png'},
 ]
 
-export const sidebarReducer = (state: dialogsType[] = initialState, action: dispatchActionsType): dialogsType[] => {
+export const sidebarReducer = (state: dialogsType[] = initialState, action: sidebarReducerActionsType): dialogsType[] => {
     switch (action.type) {
         default:
             return state
