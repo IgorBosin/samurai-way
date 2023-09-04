@@ -14,7 +14,6 @@ type UsersComponentType = {
 }
 
 const Users = (props: UsersComponentType) => {
-
     const followOnUser = (userId: string) => {
         props.followOnUser(userId, false)
     }
@@ -32,7 +31,6 @@ const Users = (props: UsersComponentType) => {
     }
 
     const totalPages = Math.ceil(props.users.totalCount / props.users.pageSize)
-
     return (
         <div className={s.usersContainer}>
             <Pagination currentPage={props.users.currentPage} totalPages={totalPages} onPageChange={changePage}/>
@@ -41,7 +39,7 @@ const Users = (props: UsersComponentType) => {
                     <div key={el.id}>
                         <div className={s.usersListContainer}>
                             <div className={s.imgAndFollowcontainer}>
-                                <Link to="/profile/2">
+                                <Link to={`/profile/${el.id}`}>
                                     <img className={s.img} src={el.photos.small
                                         ? el.photos.small
                                         : avatarDefault}

@@ -5,16 +5,18 @@ import {AppRootState} from '../../Redux/store';
 import {UsersPageType} from '../../Redux/usersReducer';
 import Profile from './Profile';
 import {setUserProfile} from "../../Redux/profileReducer";
+import {RouteComponentProps, withRouter} from "react-router-dom";
 
 const instance = axios.create({
     baseURL: 'https://social-network.samuraijs.com/api/1.0/',
     withCredentials: true,
 })
 
-class ProfileContainer extends React.Component<ProfileContainerType, UsersPageType> {
+class ProfileContainer extends React.Component<PropsType, UsersPageType> {
     componentDidMount() {
-        // instance.get<GetUserProfileResponseType>(`profile/${this.props.userProfile.userId}`)
-        instance.get<GetUserProfileResponseType>(`profile/2`)
+        let userId = this.props.match.params.userId
+        if (!userId) userId = '2';
+        instance.get<GetUserProfileResponseType>(`profile/` + userId)
             .then((res) => {
                 this.props.setUserProfile(res.data)
             })
@@ -33,8 +35,21 @@ const mapStateToProps = (state: AppRootState): MapStatePropsType => ({
     userProfile: state.profilePage.userProfile
 })
 
-export default connect(mapStateToProps, {setUserProfile})(ProfileContainer)
+const WithUrlDataContainerComponent = withRouter(ProfileContainer) // сначала оборач в withRouter и получ доп.св-ва
 
+export default connect(mapStateToProps, {setUserProfile})(WithUrlDataContainerComponent)
+
+type PropsType = RouteComponentProps<PathParamsType> & OwnPropsType
+type PathParamsType = {
+    userId: string
+}
+type OwnPropsType = MapDispatchPropsType & MapStatePropsType
+type MapStatePropsType = {
+    userProfile: GetUserProfileResponseType | null
+}
+type MapDispatchPropsType = {
+    setUserProfile: (userProfile: GetUserProfileResponseType) => void
+}
 export type GetUserProfileResponseType = {
     aboutMe: string,
     contacts: {
@@ -55,11 +70,4 @@ export type GetUserProfileResponseType = {
         small: string,
         large: string
     }
-}
-type ProfileContainerType = MapDispatchPropsType & MapStatePropsType
-type MapStatePropsType = {
-    userProfile: GetUserProfileResponseType
-}
-type MapDispatchPropsType = {
-    setUserProfile: (userProfile: GetUserProfileResponseType) => void
 }

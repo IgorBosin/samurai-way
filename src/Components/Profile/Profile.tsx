@@ -4,7 +4,7 @@ import {MyPostsContainer} from "./MyPosts/MyPostsContainer";
 import {GetUserProfileResponseType} from "./ProfileContainer";
 
 type PropsType = {
-    profileUser:GetUserProfileResponseType
+    profileUser:GetUserProfileResponseType | null
 }
 
 function Profile(props:PropsType) {

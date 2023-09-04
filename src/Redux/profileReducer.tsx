@@ -9,27 +9,28 @@ export const setUserProfile = (userProfile: GetUserProfileResponseType) => ({
 } as const)
 
 const initialState: ProfilePageType = {
-    userProfile: {
-        aboutMe: '',
-        contacts: {
-            facebook: '',
-            website: '',
-            vk: '',
-            twitter: '',
-            instagram: '',
-            youtube: '',
-            github: '',
-            mainLink: ''
-        },
-        lookingForAJob: true,
-        lookingForAJobDescription: '',
-        fullName: '',
-        userId: 2,
-        photos: {
-            small: '',
-            large: ''
-        }
-    },
+    userProfile:null,
+    // userProfile: {
+    //     aboutMe: '',
+    //     contacts: {
+    //         facebook: '',
+    //         website: '',
+    //         vk: '',
+    //         twitter: '',
+    //         instagram: '',
+    //         youtube: '',
+    //         github: '',
+    //         mainLink: ''
+    //     },
+    //     lookingForAJob: true,
+    //     lookingForAJobDescription: '',
+    //     fullName: '',
+    //     userId: 2,
+    //     photos: {
+    //         small: '',
+    //         large: ''
+    //     }
+    // },
     posts: [
         {
             id: v1(),
@@ -86,7 +87,7 @@ export type postsType = {
     img: string
 }
 export type ProfilePageType = {
-    userProfile: GetUserProfileResponseType
+    userProfile: GetUserProfileResponseType | null
     posts: postsType[]
     newPostText: string
 }

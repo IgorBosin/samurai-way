@@ -1,12 +1,18 @@
 import React from "react";
 import s from "./ProfileInfo.module.css";
 import {GetUserProfileResponseType} from "../ProfileContainer";
+import Preloader from "../../common/Preloader/Preloader";
 
 type PropsType = {
-    profileUser:GetUserProfileResponseType
+    profileUser: GetUserProfileResponseType | null
 }
 
-export function ProfileInfo(props:PropsType) {
+export function ProfileInfo(props: PropsType) {
+
+    if (!props.profileUser) {
+       return <Preloader/>
+    }
+
     return (
         <div>
             <div className={s.content}>
@@ -15,9 +21,9 @@ export function ProfileInfo(props:PropsType) {
                     alt="img"/>
             </div>
             <div className={s.descriptionBlock}>
-               <span>{props.profileUser.fullName}</span>
-                <img src={props.profileUser.photos.large} alt="large photo"/>
-                {props.profileUser.aboutMe}
+                <span>{props.profileUser?.fullName}</span>
+                <img src={props.profileUser?.photos.large} alt="large photo"/>
+                {props.profileUser?.aboutMe}
             </div>
         </div>
 
