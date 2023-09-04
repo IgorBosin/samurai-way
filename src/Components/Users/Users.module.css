@@ -41,7 +41,6 @@
     width: 100%;
     border: solid 2px black;
     border-radius: 15px;
-
 }
 
 .nameAndTitle {
@@ -57,14 +56,6 @@
 
 .title {
     color: #414b53a1;
-}
-
-.locationContainer {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-end;
-
 }
 
 .buttonMore {

@@ -2,6 +2,7 @@ import s from './Users.module.css'
 import avatarDefault from '../../assets/images/avatarDefault.png'
 import {UsersPageType} from "../../Redux/usersReducer";
 import React from "react";
+import Pagination from "./Pagination";
 
 type UsersComponentType = {
     users: UsersPageType
@@ -12,7 +13,6 @@ type UsersComponentType = {
 }
 
 const Users = (props: UsersComponentType) => {
-
 
     const followOnUser = (userId: string) => {
         props.followOnUser(userId, false)
@@ -30,12 +30,7 @@ const Users = (props: UsersComponentType) => {
         props.changePage(currentPage)
     }
 
-    const pagesToShow = 10;
-
-    const renderPages = () => {
-        return Array.from({length: pagesToShow},
-            (item, index) => index + props.users.currentPage)
-    };
+    const totalPages = Math.ceil(props.users.totalCount / props.users.pageSize)
 
     return (
         <div>
@@ -64,10 +59,6 @@ const Users = (props: UsersComponentType) => {
                                         <div className={s.name}>{el.name}</div>
                                         <span className={s.title}>{el.status}</span>
                                     </div>
-                                    <div className={s.locationContainer}>
-                                        <span>Russia</span>
-                                        <span>Perm</span>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -75,12 +66,7 @@ const Users = (props: UsersComponentType) => {
                 })}
                 <button className={s.buttonMore} onClick={setUsers}>MORE USERS</button>
             </div>
-            {renderPages().map(el => (
-                <button key={el}
-                        disabled={el === props.users.currentPage}
-                        onClick={() => changePage(el)}>{el}
-                </button>
-            ))}
+            <Pagination currentPage={props.users.currentPage} totalPages={totalPages} onPageChange={changePage}/>
         </div>
     );
 }

@@ -8,9 +8,7 @@ import News from "./Components/News/News";
 import Settings from "./Components/Settings/Settings";
 import Music from "./Components/Music/Music";
 import {DialogsContainer} from "./Components/Dialogs/DialogsContainer";
-import {UsersContainer} from "./Components/Users/UsersContainer";
-
-
+import UsersContainer from "./Components/Users/UsersContainer";
 
 const App: React.FC = () => {
     return (
@@ -23,7 +21,7 @@ const App: React.FC = () => {
                 <Route path='/settings' render={() => <Settings/>}/>
                 <Route path='/news' render={() => <News/>}/>
                 <Route path='/music' render={() => <Music/>}/>
-                <Route path='/users' render={() => <UsersContainer /> }/>
+                <Route path='/users' render={() => <UsersContainer/>}/>
             </div>
         </div>
     );
