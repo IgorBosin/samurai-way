@@ -1,11 +1,16 @@
 import React from "react";
 import {ProfileInfo} from "./ProfileInfo/ProfileInfo";
 import {MyPostsContainer} from "./MyPosts/MyPostsContainer";
+import {GetUserProfileResponseType} from "./ProfileContainer";
 
-function Profile() {
+type PropsType = {
+    profileUser:GetUserProfileResponseType
+}
+
+function Profile(props:PropsType) {
     return (
         <div>
-            <ProfileInfo/>
+            <ProfileInfo profileUser={props.profileUser}/>
             <MyPostsContainer/>
         </div>
     )

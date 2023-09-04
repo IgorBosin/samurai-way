@@ -1,7 +1,12 @@
 import React from "react";
 import s from "./ProfileInfo.module.css";
+import {GetUserProfileResponseType} from "../ProfileContainer";
 
-export function ProfileInfo() {
+type PropsType = {
+    profileUser:GetUserProfileResponseType
+}
+
+export function ProfileInfo(props:PropsType) {
     return (
         <div>
             <div className={s.content}>
@@ -10,7 +15,9 @@ export function ProfileInfo() {
                     alt="img"/>
             </div>
             <div className={s.descriptionBlock}>
-                ava+description
+               <span>{props.profileUser.fullName}</span>
+                <img src={props.profileUser.photos.large} alt="large photo"/>
+                {props.profileUser.aboutMe}
             </div>
         </div>
 

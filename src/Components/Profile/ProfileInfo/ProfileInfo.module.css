@@ -4,4 +4,16 @@
 }
 .descriptionBlock {
     padding: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.descriptionBlock img {
+    width: 80px;
+    height: 80px;
+}
+
+.descriptionBlock span {
+    font-size: 30px;
+    font-weight: bold;
 }

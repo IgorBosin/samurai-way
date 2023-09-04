@@ -2,7 +2,8 @@ import s from './Users.module.css'
 import avatarDefault from '../../assets/images/avatarDefault.png'
 import {UsersPageType} from "../../Redux/usersReducer";
 import React from "react";
-import Pagination from "./Pagination";
+import Pagination from "../common/Pagination/Pagination";
+import {Link} from "react-router-dom";
 
 type UsersComponentType = {
     users: UsersPageType
@@ -33,40 +34,40 @@ const Users = (props: UsersComponentType) => {
     const totalPages = Math.ceil(props.users.totalCount / props.users.pageSize)
 
     return (
-        <div>
-            <div className={s.usersContainer}>
-                {props.users.items.map(el => {
-                    return (
-                        <div key={el.id}>
-                            <div className={s.usersListContainer}>
-                                <div className={s.imgAndFollowcontainer}>
+        <div className={s.usersContainer}>
+            <Pagination currentPage={props.users.currentPage} totalPages={totalPages} onPageChange={changePage}/>
+            {props.users.items.map(el => {
+                return (
+                    <div key={el.id}>
+                        <div className={s.usersListContainer}>
+                            <div className={s.imgAndFollowcontainer}>
+                                <Link to="/profile/2">
                                     <img className={s.img} src={el.photos.small
                                         ? el.photos.small
                                         : avatarDefault}
                                          alt="avatar"/>
-                                    {el.followed
-                                        ? <button
-                                            className={s.buttonFollow}
-                                            onClick={() => followOnUser(el.id)}>Follow
-                                        </button>
-                                        : <button
-                                            className={s.buttonFollow}
-                                            onClick={() => unfollowOnUser(el.id)}>Unfollow
-                                        </button>}
-                                </div>
-                                <div className={s.discriptionContainer}>
-                                    <div className={s.nameAndTitle}>
-                                        <div className={s.name}>{el.name}</div>
-                                        <span className={s.title}>{el.status}</span>
-                                    </div>
+                                </Link>
+                                {el.followed
+                                    ? <button
+                                        className={s.buttonFollow}
+                                        onClick={() => followOnUser(el.id)}>Follow
+                                    </button>
+                                    : <button
+                                        className={s.buttonFollow}
+                                        onClick={() => unfollowOnUser(el.id)}>Unfollow
+                                    </button>}
+                            </div>
+                            <div className={s.discriptionContainer}>
+                                <div className={s.nameAndTitle}>
+                                    <div className={s.name}>{el.name}</div>
+                                    <span className={s.title}>{el.status}</span>
                                 </div>
                             </div>
                         </div>
-                    )
-                })}
-                <button className={s.buttonMore} onClick={setUsers}>MORE USERS</button>
-            </div>
-            <Pagination currentPage={props.users.currentPage} totalPages={totalPages} onPageChange={changePage}/>
+                    </div>
+                )
+            })}
+            <button className={s.buttonMore} onClick={setUsers}>MORE USERS</button>
         </div>
     );
 }

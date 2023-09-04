@@ -1,4 +1,4 @@
-import {getUsersResponsType} from "../Components/Users/UsersContainer";
+import {getUsersResponseType} from "../Components/Users/UsersContainer";
 
 const initialState: UsersPageType = {
     items: [],
@@ -28,7 +28,7 @@ export const usersReducer = (state: UsersPageType = initialState, action: UsersR
         case 'SET_USERS': {
             return {
                 ...state,
-                items: [...state.items, ...action.users],
+                items: [...action.users],
                 totalCount: action.totalCount,
             }
         }
@@ -41,7 +41,10 @@ export const usersReducer = (state: UsersPageType = initialState, action: UsersR
         }
         case "SET_MORE_USERS": {
             return {
-                ...state, items: [...state.items, ...action.users], currentPage: state.currentPage + 1
+                ...state,
+                items: [...state.items, ...action.users],
+                currentPage: state.currentPage + 1,
+                pageSize: state.pageSize + 5
             }
         }
         case "TOGGLE-IS-FETCHING": {
@@ -89,7 +92,7 @@ export type UsersType = {
     followed: boolean
 }
 
-export type UsersPageType = getUsersResponsType & {
+export type UsersPageType = getUsersResponseType & {
     pageSize: number
     currentPage: number
     isFetching: boolean

@@ -1,36 +1,35 @@
 import {v1} from "uuid";
+import {GetUserProfileResponseType} from "../Components/Profile/ProfileContainer";
 
-const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT';
-const ADD_POST = 'ADD-POST';
-
-export type ProfileReducerActionType = AddPostActionType | UpdateNewPostTextActionType
-
-type AddPostActionType = ReturnType<typeof addPostAC>
-type UpdateNewPostTextActionType = ReturnType<typeof updateNewPostTextAC>
-
-export const addPostAC = () => ({
-    type: ADD_POST,
+export const addPostAC = () => ({type: 'ADD-POST'} as const)
+export const updateNewPostTextAC = (textPost: string) => ({type: 'UPDATE-NEW-POST-TEXT', newText: textPost} as const)
+export const setUserProfile = (userProfile: GetUserProfileResponseType) => ({
+    type: 'SET-USER-PROFILE',
+    userProfile
 } as const)
-
-export const updateNewPostTextAC = (textPost: string) => ({
-    type: UPDATE_NEW_POST_TEXT,
-    newText: textPost
-} as const)
-
-export type postsType = {
-    id: string
-    message: string
-    name: string
-    likesCount: number
-    img: string
-}
-
-export type ProfilePageType = {
-    posts: postsType[]
-    newPostText: string
-}
 
 const initialState: ProfilePageType = {
+    userProfile: {
+        aboutMe: '',
+        contacts: {
+            facebook: '',
+            website: '',
+            vk: '',
+            twitter: '',
+            instagram: '',
+            youtube: '',
+            github: '',
+            mainLink: ''
+        },
+        lookingForAJob: true,
+        lookingForAJobDescription: '',
+        fullName: '',
+        userId: 2,
+        photos: {
+            small: '',
+            large: ''
+        }
+    },
     posts: [
         {
             id: v1(),
@@ -52,10 +51,10 @@ const initialState: ProfilePageType = {
 
 export const profileReducer = (state: ProfilePageType = initialState, action: ProfileReducerActionType): ProfilePageType => {
     switch (action.type) {
-        case UPDATE_NEW_POST_TEXT: {
+        case "UPDATE-NEW-POST-TEXT": {
             return {...state, newPostText: action.newText}
         }
-        case ADD_POST: {
+        case "ADD-POST": {
             if (state.newPostText) {
                 const newPost = {
                     id: v1(),
@@ -67,7 +66,27 @@ export const profileReducer = (state: ProfilePageType = initialState, action: Pr
                 return {...state, posts: [newPost, ...state.posts], newPostText: ''}
             } else return state
         }
+        case "SET-USER-PROFILE": {
+            return {...state, userProfile: action.userProfile}
+        }
         default:
             return state
     }
+}
+
+export type ProfileReducerActionType = AddPostActionType | UpdateNewPostTextActionType | SetUserProfileActionType
+type AddPostActionType = ReturnType<typeof addPostAC>
+type UpdateNewPostTextActionType = ReturnType<typeof updateNewPostTextAC>
+type SetUserProfileActionType = ReturnType<typeof setUserProfile>
+export type postsType = {
+    id: string
+    message: string
+    name: string
+    likesCount: number
+    img: string
+}
+export type ProfilePageType = {
+    userProfile: GetUserProfileResponseType
+    posts: postsType[]
+    newPostText: string
 }
