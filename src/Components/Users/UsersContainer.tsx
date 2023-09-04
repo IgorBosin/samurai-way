@@ -1,17 +1,16 @@
 import React from 'react';
 import {
-    changePageUsersAC,
-    followToUserAC,
-    isFetchingAC,
-    setMoreUsersAC,
-    setUsersAC,
-    unfollowToUserAC,
+    changePageUsers,
+    followToUser,
+    isFetching,
+    setMoreUsers,
+    setUsers,
+    unfollowToUser,
     UsersPageType,
     UsersType
 } from "../../Redux/usersReducer";
 import {AppRootState} from "../../Redux/store";
 import axios from "axios";
-import {Dispatch} from "redux";
 import Users from "./Users";
 import {connect} from "react-redux";
 import Preloader from "../common/Preloader/Preloader";
@@ -45,7 +44,7 @@ class UsersContainer extends React.Component<UsersAPIType, UsersPageType> {
             this.props.isFetching(true)
             instance.get<getUsersResponsType>(`users?count=${this.props.users.pageSize}&page=${currentPage}`)
                 .then((res) => {
-                    this.props.changePage(res.data.items, currentPage)
+                    this.props.changePageUsers(res.data.items, currentPage)
                     this.props.isFetching(false)
                 })
         }
@@ -54,8 +53,8 @@ class UsersContainer extends React.Component<UsersAPIType, UsersPageType> {
                 {this.props.users.isFetching && <Preloader/>}
                 <Users
                     users={this.props.users}
-                    followOnUser={this.props.followOnUser}
-                    unfollowOnUser={this.props.unfollowOnUser}
+                    followOnUser={this.props.followToUser}
+                    unfollowOnUser={this.props.unfollowToUser}
                     changePage={changePage}
                     setMoreUsers={setMoreUsers}/>
             </>
@@ -69,30 +68,32 @@ const mapStateToProps = (state: AppRootState): MapStatePropsType => {
         users: state.usersPage
     }
 }
-const mapDispatchToProps = (dispatch: Dispatch): MapDispatchPropsType => {
-    return {
-        followOnUser: (userId: string, isFollow: boolean) => {
-            dispatch(followToUserAC(userId, isFollow))
-        },
-        unfollowOnUser: (userId: string, isFollow: boolean) => {
-            dispatch(unfollowToUserAC(userId, isFollow))
-        },
-        setUsers: (items: UsersType[], totalCount: number) => {
-            dispatch(setUsersAC(items, totalCount))
-        },
-        setMoreUsers: (items: UsersType[]) => {
-            dispatch(setMoreUsersAC(items))
-        },
-        changePage: (items: UsersType[], currentPage: number) => {
-            dispatch(changePageUsersAC(items, currentPage))
-        },
-        isFetching: (isFetching: boolean) => {
-            dispatch(isFetchingAC(isFetching))
-        }
-    }
-}
 
-export default connect(mapStateToProps, mapDispatchToProps)(UsersContainer)
+// const mapDispatchToProps = (dispatch: Dispatch): MapDispatchPropsType => {
+//     return {
+//         followToUser: (userId: string, isFollow: boolean) => {
+//             dispatch(followToUser(userId, isFollow))
+//         },
+//         unfollowToUser: (userId: string, isFollow: boolean) => {
+//             dispatch(unfollowToUser(userId, isFollow))
+//         },
+//         setUsers: (items: UsersType[], totalCount: number) => {
+//             dispatch(setUsers(items, totalCount))
+//         },
+//         setMoreUsers: (items: UsersType[]) => {
+//             dispatch(setMoreUsers(items))
+//         },
+//         changePageUsers: (items: UsersType[], currentPage: number) => {
+//             dispatch(changePageUsers(items, currentPage))
+//         },
+//         isFetching:(isFetch: boolean)=>{
+//             dispatch(isFetching(isFetch))
+//         }
+//     }
+// }
+
+export default connect(mapStateToProps,
+    {followToUser, unfollowToUser, setUsers, setMoreUsers, changePageUsers, isFetching})(UsersContainer)
 
 export type getUsersResponsType = {
     items: UsersType[]
@@ -104,10 +105,10 @@ type MapStatePropsType = {
     users: UsersPageType
 }
 type MapDispatchPropsType = {
-    followOnUser: (userId: string, isFollow: boolean) => void
-    unfollowOnUser: (userId: string, isFollow: boolean) => void
+    followToUser: (userId: string, isFollow: boolean) => void
+    unfollowToUser: (userId: string, isFollow: boolean) => void
     setUsers: (items: UsersType[], totalCount: number) => void
     setMoreUsers: (items: UsersType[]) => void
-    changePage: (items: UsersType[], currentPage: number) => void
+    changePageUsers: (items: UsersType[], currentPage: number) => void
     isFetching: (isFetching: boolean) => void
 }

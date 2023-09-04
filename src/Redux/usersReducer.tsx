@@ -52,31 +52,31 @@ export const usersReducer = (state: UsersPageType = initialState, action: UsersR
     }
 }
 
-export const followToUserAC = (id: string, isFollow: boolean) => ({
+export const followToUser = (id: string, isFollow: boolean) => ({
     type: 'FOLLOW_TO_USER',
     id,
     isFollow,
 } as const)
-export const unfollowToUserAC = (id: string, isFollow: boolean) => ({
+export const unfollowToUser = (id: string, isFollow: boolean) => ({
     type: 'UNFOLLOW_TO_USER',
     id,
     isFollow,
 } as const)
-export const setUsersAC = (users: UsersType[], totalCount: number) => ({
+export const setUsers = (users: UsersType[], totalCount: number) => ({
     type: 'SET_USERS',
     users,
     totalCount,
 } as const)
-export const changePageUsersAC = (users: UsersType[], currentPage: number) => ({
+export const changePageUsers = (users: UsersType[], currentPage: number) => ({
     type: 'CHANGE-PAGE-USERS',
     users,
     currentPage
 } as const)
-export const setMoreUsersAC = (users: UsersType[]) => ({
+export const setMoreUsers = (users: UsersType[]) => ({
     type: 'SET_MORE_USERS',
     users,
 } as const)
-export const isFetchingAC = (isFetching: boolean) => ({type: 'TOGGLE-IS-FETCHING', isFetching} as const)
+export const isFetching = (isFetching: boolean) => ({type: 'TOGGLE-IS-FETCHING', isFetching} as const)
 
 export type UsersType = {
     id: string,
@@ -101,9 +101,9 @@ export type UsersReducerActionType = FollowToUserACType
     | SetMoreUsersACType
     | ToggleFetchingACType
 
-type FollowToUserACType = ReturnType<typeof followToUserAC>
-type UnfollowToUserACType = ReturnType<typeof unfollowToUserAC>
-type ShowMoreUsersACType = ReturnType<typeof setUsersAC>
-type ChangePageUsersACType = ReturnType<typeof changePageUsersAC>
-type SetMoreUsersACType = ReturnType<typeof setMoreUsersAC>
-type ToggleFetchingACType = ReturnType<typeof isFetchingAC>
+type FollowToUserACType = ReturnType<typeof followToUser>
+type UnfollowToUserACType = ReturnType<typeof unfollowToUser>
+type ShowMoreUsersACType = ReturnType<typeof setUsers>
+type ChangePageUsersACType = ReturnType<typeof changePageUsers>
+type SetMoreUsersACType = ReturnType<typeof setMoreUsers>
+type ToggleFetchingACType = ReturnType<typeof isFetching>
