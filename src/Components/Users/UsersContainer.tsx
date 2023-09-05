@@ -2,7 +2,6 @@ import React from 'react';
 import {
     changePageUsers,
     followToUser,
-    isFetching,
     setMoreUsers,
     setUsers,
     unfollowToUser,
@@ -13,7 +12,7 @@ import {AppRootState} from "../../Redux/store";
 import axios from "axios";
 import Users from "./Users";
 import {connect} from "react-redux";
-import Preloader from "../common/Preloader/Preloader";
+import {isFetching} from "../../Redux/authReducer";
 
 const instance = axios.create({
     baseURL: 'https://social-network.samuraijs.com/api/1.0/',
@@ -49,7 +48,7 @@ class UsersContainer extends React.Component<UsersContainerType, UsersPageType> 
         }
         return (
             <>
-                {this.props.users.isFetching && <Preloader/>}
+                {/*{this.props.users.isFetching && <Preloader/>}*/}
                 <Users
                     users={this.props.users}
                     followOnUser={this.props.followToUser}

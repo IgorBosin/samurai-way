@@ -1,7 +1,6 @@
 import React from "react";
 import s from "./ProfileInfo.module.css";
 import {GetUserProfileResponseType} from "../ProfileContainer";
-import Preloader from "../../common/Preloader/Preloader";
 
 type PropsType = {
     profileUser: GetUserProfileResponseType | null
@@ -9,9 +8,9 @@ type PropsType = {
 
 export function ProfileInfo(props: PropsType) {
 
-    if (!props.profileUser) {
-       return <Preloader/>
-    }
+        // if (!props.profileUser) {
+        //    return <Preloader/>
+        // }
 
     return (
         <div>

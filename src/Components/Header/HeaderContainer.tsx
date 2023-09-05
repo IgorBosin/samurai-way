@@ -19,12 +19,14 @@ class HeaderContainer extends React.Component<PropsType, AuthInitialStateType> {
                 if (res.data.resultCode === 0) {
                     this.props.setUserData(res.data.data)
                     this.props.isFetching(false)
+                } else {
+                    this.props.isFetching(false)
                 }
             })
     }
 
     render() {
-        return(
+        return (
             <>
                 {this.props.auth.isFetching && <Preloader/>}
                 <Header isAuth={this.props.auth.isAuth}/>

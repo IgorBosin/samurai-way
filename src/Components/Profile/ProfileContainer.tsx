@@ -6,6 +6,7 @@ import {UsersPageType} from '../../Redux/usersReducer';
 import Profile from './Profile';
 import {setUserProfile} from "../../Redux/profileReducer";
 import {RouteComponentProps, withRouter} from "react-router-dom";
+import {isFetching} from "../../Redux/authReducer";
 
 const instance = axios.create({
     baseURL: 'https://social-network.samuraijs.com/api/1.0/',
@@ -16,9 +17,12 @@ class ProfileContainer extends React.Component<PropsType, UsersPageType> {
     componentDidMount() {
         let userId = this.props.match.params.userId
         if (!userId) userId = '2';
+        this.props.isFetching(true)
         instance.get<GetUserProfileResponseType>(`profile/` + userId)
             .then((res) => {
                 this.props.setUserProfile(res.data)
+                this.props.isFetching(false)
+
             })
     }
 
@@ -37,7 +41,7 @@ const mapStateToProps = (state: AppRootState): MapStatePropsType => ({
 
 const WithUrlDataContainerComponent = withRouter(ProfileContainer) // сначала оборач в withRouter и получ доп.св-ва
 
-export default connect(mapStateToProps, {setUserProfile})(WithUrlDataContainerComponent)
+export default connect(mapStateToProps, {setUserProfile,isFetching})(WithUrlDataContainerComponent)
 
 type PropsType = RouteComponentProps<PathParamsType> & OwnPropsType
 type PathParamsType = {
@@ -49,6 +53,7 @@ type MapStatePropsType = {
 }
 type MapDispatchPropsType = {
     setUserProfile: (userProfile: GetUserProfileResponseType) => void
+    isFetching: (isFetching: boolean) => void
 }
 export type GetUserProfileResponseType = {
     aboutMe: string,

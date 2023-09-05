@@ -6,7 +6,7 @@ const initialState: UsersPageType = {
     pageSize: 5,
     totalCount: 0,
     currentPage: 1,
-    isFetching: false
+    // isFetching: false
 }
 
 export const usersReducer = (state: UsersPageType = initialState, action: UsersReducerActionType): UsersPageType => {
@@ -47,9 +47,9 @@ export const usersReducer = (state: UsersPageType = initialState, action: UsersR
                 pageSize: state.pageSize + 5
             }
         }
-        case "TOGGLE-IS-FETCHING": {
-            return {...state, isFetching: action.isFetching}
-        }
+        // case "TOGGLE-IS-FETCHING": {
+        //     return {...state, isFetching: action.isFetching}
+        // }
         default:
             return state
     }
@@ -64,7 +64,7 @@ export const changePageUsers = (users: UsersType[], currentPage: number) => ({
     currentPage
 } as const)
 export const setMoreUsers = (users: UsersType[]) => ({type: 'SET_MORE_USERS', users} as const)
-export const isFetching = (isFetching: boolean) => ({type: 'TOGGLE-IS-FETCHING', isFetching} as const)
+// export const isFetching = (isFetching: boolean) => ({type: 'TOGGLE-IS-FETCHING', isFetching} as const)
 
 export type UsersType = {
     id: string,
@@ -80,18 +80,18 @@ export type UsersType = {
 export type UsersPageType = getUsersResponseType & {
     pageSize: number
     currentPage: number
-    isFetching: boolean
+    // isFetching: boolean
 }
 export type UsersReducerActionType = FollowToUserACType
     | ShowMoreUsersACType
     | UnfollowToUserACType
     | ChangePageUsersACType
     | SetMoreUsersACType
-    | ToggleFetchingACType
+    // | ToggleFetchingACType
 
 type FollowToUserACType = ReturnType<typeof followToUser>
 type UnfollowToUserACType = ReturnType<typeof unfollowToUser>
 type ShowMoreUsersACType = ReturnType<typeof setUsers>
 type ChangePageUsersACType = ReturnType<typeof changePageUsers>
 type SetMoreUsersACType = ReturnType<typeof setMoreUsers>
-type ToggleFetchingACType = ReturnType<typeof isFetching>
+// type ToggleFetchingACType = ReturnType<typeof isFetching>
