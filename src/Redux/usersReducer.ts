@@ -55,30 +55,15 @@ export const usersReducer = (state: UsersPageType = initialState, action: UsersR
     }
 }
 
-export const followToUser = (id: string, isFollow: boolean) => ({
-    type: 'FOLLOW_TO_USER',
-    id,
-    isFollow,
-} as const)
-export const unfollowToUser = (id: string, isFollow: boolean) => ({
-    type: 'UNFOLLOW_TO_USER',
-    id,
-    isFollow,
-} as const)
-export const setUsers = (users: UsersType[], totalCount: number) => ({
-    type: 'SET_USERS',
-    users,
-    totalCount,
-} as const)
+export const followToUser = (id: string, isFollow: boolean) => ({type: 'FOLLOW_TO_USER', id, isFollow} as const)
+export const unfollowToUser = (id: string, isFollow: boolean) => ({type: 'UNFOLLOW_TO_USER', id, isFollow} as const)
+export const setUsers = (users: UsersType[], totalCount: number) => ({type: 'SET_USERS', users, totalCount} as const)
 export const changePageUsers = (users: UsersType[], currentPage: number) => ({
     type: 'CHANGE-PAGE-USERS',
     users,
     currentPage
 } as const)
-export const setMoreUsers = (users: UsersType[]) => ({
-    type: 'SET_MORE_USERS',
-    users,
-} as const)
+export const setMoreUsers = (users: UsersType[]) => ({type: 'SET_MORE_USERS', users} as const)
 export const isFetching = (isFetching: boolean) => ({type: 'TOGGLE-IS-FETCHING', isFetching} as const)
 
 export type UsersType = {

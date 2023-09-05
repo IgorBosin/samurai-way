@@ -1,9 +1,14 @@
 .header {
     grid-area: h;
     background: #EEEEFF;
-
+    display: flex;
+    justify-content: space-between;
 }
 
 .header img {
     height: 60px;
+}
+
+.login {
+
 }
