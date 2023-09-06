@@ -4,6 +4,7 @@ import {UsersPageType} from "../../Redux/usersReducer";
 import React from "react";
 import Pagination from "../common/Pagination/Pagination";
 import {Link} from "react-router-dom";
+import axios from "axios";
 
 type UsersComponentType = {
     users: UsersPageType
@@ -11,15 +12,44 @@ type UsersComponentType = {
     unfollowOnUser: (userId: string, isFollow: boolean) => void
     changePage: (currentPage: number) => void
     setMoreUsers: () => void
+    isFetching: (isFetching: boolean) => void
+
 }
 
+type SubscriptionResponseType = {
+    resultCode: number
+    messages: String[],
+    data: {}
+}
+
+const instance = axios.create({
+    baseURL: 'https://social-network.samuraijs.com/api/1.0/',
+    withCredentials: true,
+})
+
 const Users = (props: UsersComponentType) => {
+
+
     const followOnUser = (userId: string) => {
-        props.followOnUser(userId, false)
+        props.isFetching(true)
+        instance.post<SubscriptionResponseType>(`/follow/${userId}`)
+            .then((res) => {
+                if (res.data.resultCode === 0) {
+                    props.followOnUser(userId, true)
+                    props.isFetching(false)
+                }
+            })
     }
 
     const unfollowOnUser = (userId: string) => {
-        props.unfollowOnUser(userId, true)
+        props.isFetching(true)
+        instance.delete<SubscriptionResponseType>(`/follow/${userId}`)
+            .then((res) => {
+                if (res.data.resultCode === 0) {
+                    props.followOnUser(userId, false)
+                    props.isFetching(false)
+                }
+            })
     }
 
     const setUsers = () => {
@@ -48,11 +78,11 @@ const Users = (props: UsersComponentType) => {
                                 {el.followed
                                     ? <button
                                         className={s.buttonFollow}
-                                        onClick={() => followOnUser(el.id)}>Follow
+                                        onClick={() => unfollowOnUser(el.id)}>Unfollow
                                     </button>
                                     : <button
                                         className={s.buttonFollow}
-                                        onClick={() => unfollowOnUser(el.id)}>Unfollow
+                                        onClick={() => followOnUser(el.id)}>Follow
                                     </button>}
                             </div>
                             <div className={s.discriptionContainer}>

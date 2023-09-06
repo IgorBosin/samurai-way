@@ -50,6 +50,7 @@ class UsersContainer extends React.Component<UsersContainerType, UsersPageType> 
             <>
                 {/*{this.props.users.isFetching && <Preloader/>}*/}
                 <Users
+                    isFetching={this.props.isFetching}
                     users={this.props.users}
                     followOnUser={this.props.followToUser}
                     unfollowOnUser={this.props.unfollowToUser}
