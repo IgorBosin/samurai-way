@@ -1,18 +1,25 @@
 import React, {ChangeEvent, LegacyRef} from "react";
 import s from "./MyPosts.module.css";
 import Post from "./Post/Post";
-import {MyPostsType} from "./MyPostsContainer";
+import {postsType} from "../../../Redux/profileReducer";
 
-function MyPosts(props: MyPostsType) {
+type PropsType = {
+    posts: postsType[]
+    newPostText: string
+    addNewPost: () => void
+    updateNewPostText: (value: string) => void
+}
+
+function MyPosts(props: PropsType) {
 
     const newPostElement: LegacyRef<HTMLTextAreaElement> = React.createRef()
 
     const addPost = () => {
-        props.addPost()
+        props.addNewPost()
     }
 
     const onPostChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        props.onPostChange(e.currentTarget.value)
+        props.updateNewPostText(e.currentTarget.value)
     }
 
 

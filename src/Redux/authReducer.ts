@@ -1,30 +1,17 @@
-import {AuthData} from "../Components/Header/HeaderContainer";
+import {AuthData} from "../api/api";
 
-export type AuthReducerType = SetUserDataType | ToggleFetchingACType
-type SetUserDataType = ReturnType<typeof setUserData>
-
-export const setUserData = (data: AuthData) => ({
-    type: 'SET-USER-DATA',
-    data: data
-} as const)
-
+export const setUserData = (data: AuthData) => ({type: 'SET-USER-DATA', data: data} as const)
 export const isFetching = (isFetching: boolean) => ({type: 'TOGGLE-IS-FETCHING', isFetching} as const)
-type ToggleFetchingACType = ReturnType<typeof isFetching>
-
-export type AuthInitialStateType = AuthData & {
-    isAuth: boolean
-    isFetching: boolean
-}
 
 const initialState: AuthInitialStateType = {
-    id: null,
-    email: null,
-    login: null,
+    id: 0,
+    email: '',
+    login: '',
     isAuth: false,
     isFetching: false
 }
 
-export const authReducer = (state: AuthInitialStateType = initialState, action: AuthReducerType): AuthInitialStateType => {
+export const authReducer = (state: AuthInitialStateType = initialState, action: ActionType): AuthInitialStateType => {
     switch (action.type) {
         case 'SET-USER-DATA': {
             return {...state, ...action.data, isAuth: true}
@@ -37,3 +24,10 @@ export const authReducer = (state: AuthInitialStateType = initialState, action: 
     }
 }
 
+type ActionType = SetUserDataType | ToggleFetchingACType
+type ToggleFetchingACType = ReturnType<typeof isFetching>
+type SetUserDataType = ReturnType<typeof setUserData>
+export type AuthInitialStateType = AuthData & {
+    isAuth: boolean
+    isFetching: boolean
+}

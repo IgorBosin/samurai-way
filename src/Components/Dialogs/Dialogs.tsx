@@ -2,9 +2,17 @@ import React, {ChangeEvent, LegacyRef} from "react";
 import s from './Dialogs.module.css'
 import {DialogItem} from "./DialogsItem/DialogItem";
 import {Message} from "./Message/Message";
-import {DialogsType} from "./DialogsContainer";
+import {DialogsType, MessagesType} from "../../Redux/dialogsReducer";
 
-function Dialogs(props: DialogsType) {
+type PropsType = {
+    addMessage: () => void
+    updateNewMessageText: (value: string) => void
+    messages: MessagesType[]
+    dialogs: DialogsType[]
+    newMessageText: string
+}
+
+function Dialogs(props: PropsType) {
     const addMessages: LegacyRef<HTMLInputElement> = React.createRef()
 
     let dialogsElements = props.dialogs.map((d, index) =>
@@ -19,7 +27,7 @@ function Dialogs(props: DialogsType) {
             dialogMessages={m.message}/>)
 
     const onMessageChange = (e: ChangeEvent<HTMLInputElement>) => {
-        props.changeMessage(e.currentTarget.value)
+        props.updateNewMessageText(e.currentTarget.value)
     }
 
     const addMessage = () => {

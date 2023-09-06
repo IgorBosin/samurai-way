@@ -4,63 +4,48 @@ import {UsersPageType} from "../../Redux/usersReducer";
 import React from "react";
 import Pagination from "../common/Pagination/Pagination";
 import {Link} from "react-router-dom";
-import axios from "axios";
+import {userApi} from "../../api/api";
 
 type UsersComponentType = {
     users: UsersPageType
-    followOnUser: (userId: string, isFollow: boolean) => void
-    unfollowOnUser: (userId: string, isFollow: boolean) => void
+    followToUser: (userId: string, isFollow: boolean) => void
+    unfollowToUser: (userId: string, isFollow: boolean) => void
     changePage: (currentPage: number) => void
     setMoreUsers: () => void
     isFetching: (isFetching: boolean) => void
-
 }
 
-type SubscriptionResponseType = {
-    resultCode: number
-    messages: String[],
-    data: {}
-}
+export const Users = (props: UsersComponentType) => {
 
-const instance = axios.create({
-    baseURL: 'https://social-network.samuraijs.com/api/1.0/',
-    withCredentials: true,
-})
+    const totalPages = Math.ceil(props.users.totalCount / props.users.pageSize)
 
-const Users = (props: UsersComponentType) => {
-
-
-    const followOnUser = (userId: string) => {
+    const followToUser = (userId: string) => {
         props.isFetching(true)
-        instance.post<SubscriptionResponseType>(`/follow/${userId}`)
-            .then((res) => {
+        userApi.followToUser(userId)
+            .then(res => {
                 if (res.data.resultCode === 0) {
-                    props.followOnUser(userId, true)
+                    props.followToUser(userId, true)
                     props.isFetching(false)
                 }
             })
     }
-
-    const unfollowOnUser = (userId: string) => {
+    const unfollowToUser = (userId: string) => {
         props.isFetching(true)
-        instance.delete<SubscriptionResponseType>(`/follow/${userId}`)
-            .then((res) => {
+        userApi.unfollowToUser(userId)
+            .then(res => {
                 if (res.data.resultCode === 0) {
-                    props.followOnUser(userId, false)
+                    props.followToUser(userId, false)
                     props.isFetching(false)
                 }
             })
     }
-
     const setUsers = () => {
         props.setMoreUsers()
     }
-
     const changePage = (currentPage: number) => {
         props.changePage(currentPage)
     }
 
-    const totalPages = Math.ceil(props.users.totalCount / props.users.pageSize)
     return (
         <div className={s.usersContainer}>
             <Pagination currentPage={props.users.currentPage} totalPages={totalPages} onPageChange={changePage}/>
@@ -78,11 +63,11 @@ const Users = (props: UsersComponentType) => {
                                 {el.followed
                                     ? <button
                                         className={s.buttonFollow}
-                                        onClick={() => unfollowOnUser(el.id)}>Unfollow
+                                        onClick={() => unfollowToUser(el.id)}>Unfollow
                                     </button>
                                     : <button
                                         className={s.buttonFollow}
-                                        onClick={() => followOnUser(el.id)}>Follow
+                                        onClick={() => followToUser(el.id)}>Follow
                                     </button>}
                             </div>
                             <div className={s.discriptionContainer}>
@@ -100,4 +85,3 @@ const Users = (props: UsersComponentType) => {
     );
 }
 
-export default Users;

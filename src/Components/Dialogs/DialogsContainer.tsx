@@ -1,46 +1,49 @@
 import React from "react";
-import {
-    addMessageAC,
-    dialogsType,
-    messagesType,
-    updateNewMessageTextAC
-} from "../../Redux/dialogsReducer";
 import Dialogs from "./Dialogs";
 import {connect} from "react-redux";
 import {AppRootState} from "../../Redux/store";
-import {Dispatch} from "redux";
+import {
+    addMessage,
+    DialogsPageType,
+    DialogsType,
+    MessagesType,
+    updateNewMessageText,
+} from "../../Redux/dialogsReducer";
 
-type MapStatePropsType = {
-    dialogs: dialogsType[]
-    messages: messagesType[]
-    newMessageText: string
-}
-
-type MapDispatchPropsType = {
-    addMessage: () => void
-    changeMessage: (value: string) => void
-}
-
-export type DialogsType = MapStatePropsType & MapDispatchPropsType
-
-const mapStateToProps = (state: AppRootState): MapStatePropsType => {
+const mapStateToProps = (state: AppRootState): DialogsPageType => {
     return {
         dialogs: state.dialogsPage.dialogs,
         messages: state.dialogsPage.messages,
         newMessageText: state.dialogsPage.newMessageText
     }
 }
+// const mapDispatchToProps = (dispatch: Dispatch): MapDispatchPropsType => {
+//     return {
+//         addMessage: () => {
+//             dispatch(addMessage())
+//         },
+//         updateNewMessageText: (value: string) => {
+//             let action = updateNewMessageText(value)
+//             dispatch(action)
+//         }
+//     }
+// }
 
-const mapDispatchToProps = (dispatch: Dispatch): MapDispatchPropsType => {
-    return {
-        addMessage: () => {
-            dispatch(addMessageAC())
-        },
-        changeMessage: (value: string) => {
-            let action = updateNewMessageTextAC(value)
-            dispatch(action)
-        }
+class DialogsContainer extends React.Component<PropsType, DialogsPageType> {
+    render() {
+        return <Dialogs {...this.props}/>;
     }
 }
 
-export const DialogsContainer = connect(mapStateToProps, mapDispatchToProps)(Dialogs)
+export default connect(mapStateToProps, {addMessage, updateNewMessageText})(DialogsContainer)
+
+type PropsType = MapDispatchPropsType & MapStatePropsType
+type MapDispatchPropsType = {
+    addMessage: () => void
+    updateNewMessageText: (value: string) => void
+}
+type MapStatePropsType = {
+    messages: MessagesType[]
+    dialogs: DialogsType[]
+    newMessageText: string
+}

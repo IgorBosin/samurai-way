@@ -1,28 +1,25 @@
 import React from 'react';
-import axios from 'axios';
 import {connect} from 'react-redux';
 import {AppRootState} from '../../Redux/store';
-import {UsersPageType} from '../../Redux/usersReducer';
 import Profile from './Profile';
-import {setUserProfile} from "../../Redux/profileReducer";
+import {ProfilePageType, setUserProfile} from "../../Redux/profileReducer";
 import {RouteComponentProps, withRouter} from "react-router-dom";
 import {isFetching} from "../../Redux/authReducer";
+import {profileApi, UserProfileType} from "../../api/api";
 
-const instance = axios.create({
-    baseURL: 'https://social-network.samuraijs.com/api/1.0/',
-    withCredentials: true,
+const mapStateToProps = (state: AppRootState): MapStatePropsType => ({
+    userProfile: state.profilePage.userProfile
 })
 
-class ProfileContainer extends React.Component<PropsType, UsersPageType> {
+class ProfileContainer extends React.Component<PropsType, ProfilePageType> {
     componentDidMount() {
         let userId = this.props.match.params.userId
         if (!userId) userId = '2';
         this.props.isFetching(true)
-        instance.get<GetUserProfileResponseType>(`profile/` + userId)
-            .then((res) => {
+        profileApi.getUserProfile(userId)
+            .then(res => {
                 this.props.setUserProfile(res.data)
                 this.props.isFetching(false)
-
             })
     }
 
@@ -35,13 +32,9 @@ class ProfileContainer extends React.Component<PropsType, UsersPageType> {
     }
 }
 
-const mapStateToProps = (state: AppRootState): MapStatePropsType => ({
-    userProfile: state.profilePage.userProfile
-})
-
 const WithUrlDataContainerComponent = withRouter(ProfileContainer) // сначала оборач в withRouter и получ доп.св-ва
 
-export default connect(mapStateToProps, {setUserProfile,isFetching})(WithUrlDataContainerComponent)
+export default connect(mapStateToProps, {setUserProfile, isFetching})(WithUrlDataContainerComponent)
 
 type PropsType = RouteComponentProps<PathParamsType> & OwnPropsType
 type PathParamsType = {
@@ -49,30 +42,10 @@ type PathParamsType = {
 }
 type OwnPropsType = MapDispatchPropsType & MapStatePropsType
 type MapStatePropsType = {
-    userProfile: GetUserProfileResponseType | null
+    userProfile: UserProfileType
 }
 type MapDispatchPropsType = {
-    setUserProfile: (userProfile: GetUserProfileResponseType) => void
+    setUserProfile: (userProfile: UserProfileType) => void
     isFetching: (isFetching: boolean) => void
 }
-export type GetUserProfileResponseType = {
-    aboutMe: string,
-    contacts: {
-        facebook: string,
-        website: string,
-        vk: string,
-        twitter: string,
-        instagram: string,
-        youtube: string,
-        github: string,
-        mainLink: string
-    },
-    lookingForAJob: boolean,
-    lookingForAJobDescription: string,
-    fullName: string,
-    userId: number,
-    photos: {
-        small: string,
-        large: string
-    }
-}
+

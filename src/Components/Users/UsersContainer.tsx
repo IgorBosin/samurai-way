@@ -6,25 +6,25 @@ import {
     setUsers,
     unfollowToUser,
     UsersPageType,
-    UsersType
 } from "../../Redux/usersReducer";
 import {AppRootState} from "../../Redux/store";
-import axios from "axios";
-import Users from "./Users";
 import {connect} from "react-redux";
 import {isFetching} from "../../Redux/authReducer";
+import {userApi, UsersType} from "../../api/api";
+import {Users} from "./Users";
 
-const instance = axios.create({
-    baseURL: 'https://social-network.samuraijs.com/api/1.0/',
-    withCredentials: true,
-})
+const mapStateToProps = (state: AppRootState): MapStatePropsType => {
+    return {
+        users: state.usersPage
+    }
+}
 
-class UsersContainer extends React.Component<UsersContainerType, UsersPageType> {
+class UsersContainer extends React.Component<PropsType, UsersPageType> {
     componentDidMount() {
         this.props.isFetching(true)
-        instance.get<getUsersResponseType>(`users?count=${this.props.users.pageSize}&page=${this.props.users.currentPage}`)
-            .then((res) => {
-                this.props.setUsers(res.data.items, res.data.totalCount)
+        userApi.getUsers(this.props.users.pageSize, this.props.users.currentPage)
+            .then((data) => {
+                this.props.setUsers(data.items, data.totalCount)
                 this.props.isFetching(false)
             })
     }
@@ -32,28 +32,29 @@ class UsersContainer extends React.Component<UsersContainerType, UsersPageType> 
     render() {
         const setMoreUsers = () => {
             this.props.isFetching(true)
-            instance.get<getUsersResponseType>(`users?count=${this.props.users.pageSize}&page=${this.props.users.currentPage + 1}`)
-                .then((res) => {
-                    this.props.setMoreUsers(res.data.items)
+            userApi.getUsers(this.props.users.pageSize, this.props.users.currentPage + 1)
+                .then((data) => {
+                    this.props.setMoreUsers(data.items)
                     this.props.isFetching(false)
                 })
         }
+
         const changePage = (currentPage: number) => {
             this.props.isFetching(true)
-            instance.get<getUsersResponseType>(`users?count=${this.props.users.pageSize}&page=${currentPage}`)
-                .then((res) => {
-                    this.props.changePageUsers(res.data.items, currentPage)
+            userApi.getUsers(this.props.users.pageSize, currentPage)
+                .then((data) => {
+                    this.props.changePageUsers(data.items, currentPage)
                     this.props.isFetching(false)
                 })
         }
+
         return (
             <>
-                {/*{this.props.users.isFetching && <Preloader/>}*/}
                 <Users
                     isFetching={this.props.isFetching}
                     users={this.props.users}
-                    followOnUser={this.props.followToUser}
-                    unfollowOnUser={this.props.unfollowToUser}
+                    followToUser={this.props.followToUser}
+                    unfollowToUser={this.props.unfollowToUser}
                     changePage={changePage}
                     setMoreUsers={setMoreUsers}/>
             </>
@@ -62,22 +63,10 @@ class UsersContainer extends React.Component<UsersContainerType, UsersPageType> 
     }
 }
 
-const mapStateToProps = (state: AppRootState): MapStatePropsType => {
-    return {
-        users: state.usersPage
-    }
-}
-
 export default connect(mapStateToProps,
     {followToUser, unfollowToUser, setUsers, setMoreUsers, changePageUsers, isFetching})(UsersContainer)
 
-
-export type getUsersResponseType = {
-    items: UsersType[]
-    totalCount: number
-    error: string
-}
-type UsersContainerType = MapDispatchPropsType & MapStatePropsType
+type PropsType = MapDispatchPropsType & MapStatePropsType
 type MapStatePropsType = {
     users: UsersPageType
 }

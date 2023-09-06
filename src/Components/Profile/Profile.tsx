@@ -1,17 +1,22 @@
 import React from "react";
 import {ProfileInfo} from "./ProfileInfo/ProfileInfo";
-import {MyPostsContainer} from "./MyPosts/MyPostsContainer";
-import {GetUserProfileResponseType} from "./ProfileContainer";
+import {UserProfileType} from "../../api/api";
+import MyPostsContainer from "./MyPosts/MyPostsContainer";
 
 type PropsType = {
-    profileUser:GetUserProfileResponseType | null
+    profileUser:UserProfileType
 }
 
 function Profile(props:PropsType) {
+
+    if (props.profileUser.userId===0) {
+        return <div></div>
+    }
+
     return (
         <div>
             <ProfileInfo profileUser={props.profileUser}/>
-            <MyPostsContainer/>
+            <MyPostsContainer />
         </div>
     )
 }

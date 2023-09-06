@@ -1,36 +1,35 @@
 import {v1} from "uuid";
-import {GetUserProfileResponseType} from "../Components/Profile/ProfileContainer";
+import {UserProfileType} from "../api/api";
 
-export const addPostAC = () => ({type: 'ADD-POST'} as const)
-export const updateNewPostTextAC = (textPost: string) => ({type: 'UPDATE-NEW-POST-TEXT', newText: textPost} as const)
-export const setUserProfile = (userProfile: GetUserProfileResponseType) => ({
+export const addNewPost = () => ({type: 'ADD-POST'} as const)
+export const updateNewPostText = (textPost: string) => ({type: 'UPDATE-NEW-POST-TEXT', newText: textPost} as const)
+export const setUserProfile = (userProfile: UserProfileType) => ({
     type: 'SET-USER-PROFILE',
     userProfile
 } as const)
 
 const initialState: ProfilePageType = {
-    userProfile:null,
-    // userProfile: {
-    //     aboutMe: '',
-    //     contacts: {
-    //         facebook: '',
-    //         website: '',
-    //         vk: '',
-    //         twitter: '',
-    //         instagram: '',
-    //         youtube: '',
-    //         github: '',
-    //         mainLink: ''
-    //     },
-    //     lookingForAJob: true,
-    //     lookingForAJobDescription: '',
-    //     fullName: '',
-    //     userId: 2,
-    //     photos: {
-    //         small: '',
-    //         large: ''
-    //     }
-    // },
+    userProfile: {
+        aboutMe: '',
+        contacts: {
+            facebook: '',
+            website: '',
+            vk: '',
+            twitter: '',
+            instagram: '',
+            youtube: '',
+            github: '',
+            mainLink: ''
+        },
+        lookingForAJob: true,
+        lookingForAJobDescription: '',
+        fullName: '',
+        userId: 0,
+        photos: {
+            small: '',
+            large: ''
+        }
+    },
     posts: [
         {
             id: v1(),
@@ -50,7 +49,7 @@ const initialState: ProfilePageType = {
     newPostText: ''
 }
 
-export const profileReducer = (state: ProfilePageType = initialState, action: ProfileReducerActionType): ProfilePageType => {
+export const profileReducer = (state: ProfilePageType = initialState, action: ActionType): ProfilePageType => {
     switch (action.type) {
         case "UPDATE-NEW-POST-TEXT": {
             return {...state, newPostText: action.newText}
@@ -59,7 +58,7 @@ export const profileReducer = (state: ProfilePageType = initialState, action: Pr
             if (state.newPostText) {
                 const newPost = {
                     id: v1(),
-                    message: state.newPostText, // почему из стейта???????
+                    message: state.newPostText,
                     name: 'Igor',
                     likesCount: 777,
                     img: 'https://i.ibb.co/6YM5Wht/igor.jpg',
@@ -75,9 +74,9 @@ export const profileReducer = (state: ProfilePageType = initialState, action: Pr
     }
 }
 
-export type ProfileReducerActionType = AddPostActionType | UpdateNewPostTextActionType | SetUserProfileActionType
-type AddPostActionType = ReturnType<typeof addPostAC>
-type UpdateNewPostTextActionType = ReturnType<typeof updateNewPostTextAC>
+type ActionType = AddPostActionType | UpdateNewPostTextActionType | SetUserProfileActionType
+type AddPostActionType = ReturnType<typeof addNewPost>
+type UpdateNewPostTextActionType = ReturnType<typeof updateNewPostText>
 type SetUserProfileActionType = ReturnType<typeof setUserProfile>
 export type postsType = {
     id: string
@@ -87,7 +86,7 @@ export type postsType = {
     img: string
 }
 export type ProfilePageType = {
-    userProfile: GetUserProfileResponseType | null
+    userProfile: UserProfileType
     posts: postsType[]
     newPostText: string
 }

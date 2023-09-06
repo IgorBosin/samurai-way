@@ -1,12 +1,12 @@
 import React from 'react';
 import {BestFriendsType} from "./BestFriendsContainer";
 
-const BestFriends = (props: BestFriendsType) => {
+export const BestFriends = (props: BestFriendsType) => {
 
     return (
         <div>
             <div style={{marginTop: '30px'}}>Best Friends</div>
-            {props.bestFriends.map((el,index) => {
+            {props.bestFriends.map((el, index) => {
                 return (
                     <div key={index}>
                         <img style={{width: '30px'}} src={el.avatar} alt=""/>
@@ -17,5 +17,3 @@ const BestFriends = (props: BestFriendsType) => {
         </div>
     );
 };
-
-export default BestFriends;
