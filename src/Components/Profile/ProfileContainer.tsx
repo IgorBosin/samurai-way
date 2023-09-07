@@ -18,6 +18,7 @@ class ProfileContainer extends React.Component<PropsType, ProfilePageType> {
         this.props.isFetching(true)
         profileApi.getUserProfile(userId)
             .then(res => {
+                console.log(res.status, 'status')
                 this.props.setUserProfile(res.data)
                 this.props.isFetching(false)
             })

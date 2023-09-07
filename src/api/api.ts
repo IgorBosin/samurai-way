@@ -21,14 +21,13 @@ export const userApi = {
                 return res.data
             })
     },
-    followToUser: (userId: string) => {
+    followToUser: (userId: number) => {
         return instance.post<UserSubscriptionType>(`/follow/${userId}`)
     },
-    unfollowToUser: (userId: string) => {
+    unfollowToUser: (userId: number) => {
         return instance.delete<UserSubscriptionType>(`/follow/${userId}`)
     },
 }
-
 
 export type getUsersResponseType = {
     items: UsersType[]
@@ -36,7 +35,7 @@ export type getUsersResponseType = {
     error: string
 }
 export type UsersType = {
-    id: string,
+    id: number,
     name: string,
     status: string,
     photos: {

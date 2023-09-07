@@ -8,34 +8,39 @@ import {userApi} from "../../api/api";
 
 type UsersComponentType = {
     users: UsersPageType
-    followToUser: (userId: string, isFollow: boolean) => void
-    unfollowToUser: (userId: string, isFollow: boolean) => void
+    followToUser: (userId: number, isFollow: boolean) => void
+    unfollowToUser: (userId: number, isFollow: boolean) => void
     changePage: (currentPage: number) => void
     setMoreUsers: () => void
     isFetching: (isFetching: boolean) => void
+    isFollowing: (id: number, disableButton: boolean) => void
 }
 
 export const Users = (props: UsersComponentType) => {
 
     const totalPages = Math.ceil(props.users.totalCount / props.users.pageSize)
 
-    const followToUser = (userId: string) => {
+    const followToUser = (userId: number) => {
+        props.isFollowing(userId, true)
         props.isFetching(true)
         userApi.followToUser(userId)
             .then(res => {
                 if (res.data.resultCode === 0) {
+                    props.isFollowing(userId, false)
                     props.followToUser(userId, true)
                     props.isFetching(false)
                 }
             })
     }
-    const unfollowToUser = (userId: string) => {
+    const unfollowToUser = (userId: number) => {
+        props.isFollowing(userId, true)
         props.isFetching(true)
         userApi.unfollowToUser(userId)
             .then(res => {
                 if (res.data.resultCode === 0) {
                     props.followToUser(userId, false)
                     props.isFetching(false)
+                    props.isFollowing(userId, false)
                 }
             })
     }
@@ -62,10 +67,12 @@ export const Users = (props: UsersComponentType) => {
                                 </Link>
                                 {el.followed
                                     ? <button
+                                        disabled={el.isFollowing}
                                         className={s.buttonFollow}
                                         onClick={() => unfollowToUser(el.id)}>Unfollow
                                     </button>
                                     : <button
+                                        disabled={el.isFollowing}
                                         className={s.buttonFollow}
                                         onClick={() => followToUser(el.id)}>Follow
                                     </button>}
