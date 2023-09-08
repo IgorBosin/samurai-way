@@ -11,9 +11,7 @@ function Header({isAuth}: { isAuth: boolean }) {
             <img
                 src="https://www.nasa.gov/sites/default/files/thumbnails/image/nasa-logo-web-rgb.png"
                 alt="logo"/>
-            <Link to="/login">
-                {login}
-            </Link>
+            <Link to="/login">{login}</Link>
         </header>
     )
 }

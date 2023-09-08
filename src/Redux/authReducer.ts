@@ -48,7 +48,7 @@ export const toggleIsFetching = (id: string) => (dispatch: Dispatch) => {
     profileApi.getUserProfile(userId)
         .then(res => {
             dispatch(setUserProfile(res.data)) // export from /profileReducer
-            dispatch(isFetching(true))
+            dispatch(isFetching(false))
         })
 }
 

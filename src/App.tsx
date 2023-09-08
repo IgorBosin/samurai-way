@@ -9,6 +9,7 @@ import UsersContainer from "./Components/Users/UsersContainer";
 import ProfileContainer from "./Components/Profile/ProfileContainer";
 import HeaderContainer from "./Components/Header/HeaderContainer";
 import DialogsContainer from "./Components/Dialogs/DialogsContainer";
+import Login from "./Components/Login/Login";
 
 const App: React.FC = () => {
     return (
@@ -22,6 +23,7 @@ const App: React.FC = () => {
                 <Route path='/news' render={() => <News/>}/>
                 <Route path='/music' render={() => <Music/>}/>
                 <Route path='/users' render={() => <UsersContainer/>}/>
+                <Route path='/login' render={() => <Login/>}/>
             </div>
         </div>
     );
