@@ -4,51 +4,31 @@ import {UsersPageType} from "../../Redux/usersReducer";
 import React from "react";
 import Pagination from "../common/Pagination/Pagination";
 import {Link} from "react-router-dom";
-import {userApi} from "../../api/api";
 
 type UsersComponentType = {
     users: UsersPageType
-    followToUser: (userId: number, isFollow: boolean) => void
     unfollowToUser: (userId: number, isFollow: boolean) => void
-    changePage: (currentPage: number) => void
-    setMoreUsers: () => void
-    isFetching: (isFetching: boolean) => void
-    isFollowing: (id: number, disableButton: boolean) => void
+    followToUser: (userId: number, isFollow: boolean) => void
+    getAnotherPage: (currentPage: number) => void
+    getMoreUsers: () => void
 }
 
 export const Users = (props: UsersComponentType) => {
 
     const totalPages = Math.ceil(props.users.totalCount / props.users.pageSize)
 
-    const followToUser = (userId: number) => {
-        props.isFollowing(userId, true)
-        props.isFetching(true)
-        userApi.followToUser(userId)
-            .then(res => {
-                if (res.data.resultCode === 0) {
-                    props.isFollowing(userId, false)
-                    props.followToUser(userId, true)
-                    props.isFetching(false)
-                }
-            })
+    const unfollowToUser = (userId: number, isFollow: boolean) => {
+        props.unfollowToUser(userId, isFollow)
     }
-    const unfollowToUser = (userId: number) => {
-        props.isFollowing(userId, true)
-        props.isFetching(true)
-        userApi.unfollowToUser(userId)
-            .then(res => {
-                if (res.data.resultCode === 0) {
-                    props.followToUser(userId, false)
-                    props.isFetching(false)
-                    props.isFollowing(userId, false)
-                }
-            })
+    const followToUser = (userId: number, isFollow: boolean) => {
+        props.followToUser(userId, isFollow)
     }
+
     const setUsers = () => {
-        props.setMoreUsers()
+        props.getMoreUsers()
     }
     const changePage = (currentPage: number) => {
-        props.changePage(currentPage)
+        props.getAnotherPage(currentPage)
     }
 
     return (
@@ -69,12 +49,12 @@ export const Users = (props: UsersComponentType) => {
                                     ? <button
                                         disabled={el.isFollowing}
                                         className={s.buttonFollow}
-                                        onClick={() => unfollowToUser(el.id)}>Unfollow
+                                        onClick={() => unfollowToUser(el.id, false)}>Unfollow
                                     </button>
                                     : <button
                                         disabled={el.isFollowing}
                                         className={s.buttonFollow}
-                                        onClick={() => followToUser(el.id)}>Follow
+                                        onClick={() => followToUser(el.id, true)}>Follow
                                     </button>}
                             </div>
                             <div className={s.discriptionContainer}>

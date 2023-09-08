@@ -2,10 +2,10 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {AppRootState} from '../../Redux/store';
 import Profile from './Profile';
-import {ProfilePageType, setUserProfile} from "../../Redux/profileReducer";
+import {ProfilePageType} from "../../Redux/profileReducer";
 import {RouteComponentProps, withRouter} from "react-router-dom";
-import {isFetching} from "../../Redux/authReducer";
-import {profileApi, UserProfileType} from "../../api/api";
+import {toggleIsFetching} from "../../Redux/authReducer";
+import {UserProfileType} from "../../api/api";
 
 const mapStateToProps = (state: AppRootState): MapStatePropsType => ({
     userProfile: state.profilePage.userProfile
@@ -13,15 +13,7 @@ const mapStateToProps = (state: AppRootState): MapStatePropsType => ({
 
 class ProfileContainer extends React.Component<PropsType, ProfilePageType> {
     componentDidMount() {
-        let userId = this.props.match.params.userId
-        if (!userId) userId = '2';
-        this.props.isFetching(true)
-        profileApi.getUserProfile(userId)
-            .then(res => {
-                console.log(res.status, 'status')
-                this.props.setUserProfile(res.data)
-                this.props.isFetching(false)
-            })
+        this.props.toggleIsFetching(this.props.match.params.userId)
     }
 
     render() {
@@ -35,7 +27,7 @@ class ProfileContainer extends React.Component<PropsType, ProfilePageType> {
 
 const WithUrlDataContainerComponent = withRouter(ProfileContainer) // сначала оборач в withRouter и получ доп.св-ва
 
-export default connect(mapStateToProps, {setUserProfile, isFetching})(WithUrlDataContainerComponent)
+export default connect(mapStateToProps, {toggleIsFetching})(WithUrlDataContainerComponent)
 
 type PropsType = RouteComponentProps<PathParamsType> & OwnPropsType
 type PathParamsType = {
@@ -46,7 +38,6 @@ type MapStatePropsType = {
     userProfile: UserProfileType
 }
 type MapDispatchPropsType = {
-    setUserProfile: (userProfile: UserProfileType) => void
-    isFetching: (isFetching: boolean) => void
+    toggleIsFetching: (userId: string) => void
 }
 

@@ -1,11 +1,5 @@
 import {v1} from "uuid";
 
-export const addMessage = () => ({type: 'ADD-MESSAGE'} as const)
-export const updateNewMessageText = (textMessage: string) => ({
-    type: 'UPDATE-NEW-MESSAGE-TEXT',
-    newText: textMessage
-} as const)
-
 const initialState: DialogsPageType = {
     messages: [
         {id: v1(), message: 'Hi'},
@@ -37,6 +31,17 @@ export const dialogsReducer = (state: DialogsPageType = initialState, action: Ac
     }
 }
 
+//action creators
+export const addMessage = () => ({type: 'ADD-MESSAGE'} as const)
+export const updateNewMessageText = (textMessage: string) => ({
+    type: 'UPDATE-NEW-MESSAGE-TEXT',
+    newText: textMessage
+} as const)
+
+//thunk creators
+
+
+//types
 export type DialogsPageType = {
     messages: MessagesType[]
     dialogs: DialogsType[]
