@@ -9,6 +9,8 @@ import {
     MessagesType,
     updateNewMessageText,
 } from "../../Redux/dialogsReducer";
+import {WithAuthRedirect} from "../../hoc/WithAuthRedirect";
+import {compose} from "redux";
 
 const mapStateToProps = (state: AppRootState): DialogsPageType => {
     return {
@@ -24,7 +26,10 @@ class DialogsContainer extends React.Component<PropsType, DialogsPageType> {
     }
 }
 
-export default connect(mapStateToProps, {addMessage, updateNewMessageText})(DialogsContainer)
+export default compose<React.ComponentType>(
+    connect(mapStateToProps, {addMessage, updateNewMessageText}),
+    WithAuthRedirect
+)(DialogsContainer)
 
 // types
 type PropsType = MapDispatchPropsType & MapStatePropsType

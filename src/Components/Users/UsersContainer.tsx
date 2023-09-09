@@ -11,6 +11,7 @@ import {AppRootState} from "../../Redux/store";
 import {Users} from "./Users";
 import {connect} from "react-redux";
 import {WithAuthRedirect} from "../../hoc/WithAuthRedirect";
+import {compose} from "redux";
 
 const mapStateToProps = (state: AppRootState): MapStatePropsType => {
     return {
@@ -45,10 +46,10 @@ class UsersContainer extends React.Component<PropsType, UsersPageType> {
     }
 }
 
-const authRedirectComponent = WithAuthRedirect(UsersContainer)
-
-export default connect(mapStateToProps,
-    {unfollowToUser, followToUser, getUsers, getMoreUsers, getAnotherPage})(authRedirectComponent)
+export default compose<React.ComponentType>(
+    connect(mapStateToProps, {unfollowToUser, followToUser, getUsers, getMoreUsers, getAnotherPage}),
+    WithAuthRedirect,
+)(UsersContainer)
 
 // types
 type PropsType = MapDispatchPropsType & MapStatePropsType

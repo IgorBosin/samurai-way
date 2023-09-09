@@ -7,6 +7,7 @@ import {RouteComponentProps, withRouter} from "react-router-dom";
 import {toggleIsFetching} from "../../Redux/authReducer";
 import {UserProfileType} from "../../api/api";
 import {WithAuthRedirect} from "../../hoc/WithAuthRedirect";
+import {compose} from "redux";
 
 const mapStateToProps = (state: AppRootState): MapStatePropsType => ({
     userProfile: state.profilePage.userProfile,
@@ -18,9 +19,6 @@ class ProfileContainer extends React.Component<PropsType, ProfilePageType> {
     }
 
     render() {
-
-        // if (!this.props.isAuth) return <Redirect to={'/login'}/>
-
         return (
             <div>
                 <Profile profileUser={this.props.userProfile}/>
@@ -29,11 +27,11 @@ class ProfileContainer extends React.Component<PropsType, ProfilePageType> {
     }
 }
 
-const WithUrlDataContainerComponent = withRouter(ProfileContainer) // сначала оборач в withRouter и получ доп.св-ва
-
-const authRedirectComponent = WithAuthRedirect(WithUrlDataContainerComponent)
-
-export default connect(mapStateToProps, {toggleIsFetching})(authRedirectComponent)
+export default compose<React.ComponentType>(
+    connect(mapStateToProps, {toggleIsFetching}),
+    WithAuthRedirect,
+    withRouter  // сначала оборач в withRouter и получ доп.св-ва (id в строке браузера)
+)(ProfileContainer)
 
 // types
 type PropsType = RouteComponentProps<PathParamsType> & OwnPropsType
