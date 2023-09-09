@@ -17,17 +17,6 @@ const mapStateToProps = (state: AppRootState): DialogsPageType => {
         newMessageText: state.dialogsPage.newMessageText
     }
 }
-// const mapDispatchToProps = (dispatch: Dispatch): MapDispatchPropsType => {
-//     return {
-//         addMessage: () => {
-//             dispatch(addMessage())
-//         },
-//         updateNewMessageText: (value: string) => {
-//             let action = updateNewMessageText(value)
-//             dispatch(action)
-//         }
-//     }
-// }
 
 class DialogsContainer extends React.Component<PropsType, DialogsPageType> {
     render() {
@@ -37,6 +26,7 @@ class DialogsContainer extends React.Component<PropsType, DialogsPageType> {
 
 export default connect(mapStateToProps, {addMessage, updateNewMessageText})(DialogsContainer)
 
+// types
 type PropsType = MapDispatchPropsType & MapStatePropsType
 type MapDispatchPropsType = {
     addMessage: () => void

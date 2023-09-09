@@ -10,12 +10,11 @@ import {
 import {AppRootState} from "../../Redux/store";
 import {Users} from "./Users";
 import {connect} from "react-redux";
-import {Redirect} from "react-router-dom";
+import {WithAuthRedirect} from "../../hoc/WithAuthRedirect";
 
 const mapStateToProps = (state: AppRootState): MapStatePropsType => {
     return {
         users: state.usersPage,
-        isAuth: state.auth.isAuth
     }
 };
 
@@ -33,8 +32,6 @@ class UsersContainer extends React.Component<PropsType, UsersPageType> {
             this.props.getAnotherPage(this.props.users.pageSize, currentPage)
         }
 
-        if (!this.props.isAuth) return <Redirect to={'/login'}/>
-        
         return (
             <div>
                 <Users
@@ -44,18 +41,19 @@ class UsersContainer extends React.Component<PropsType, UsersPageType> {
                     getAnotherPage={changePage}
                     getMoreUsers={setMoreUsers}/>
             </div>
-
         )
     }
 }
 
-export default connect(mapStateToProps,
-    {unfollowToUser, followToUser, getUsers, getMoreUsers, getAnotherPage})(UsersContainer)
+const authRedirectComponent = WithAuthRedirect(UsersContainer)
 
+export default connect(mapStateToProps,
+    {unfollowToUser, followToUser, getUsers, getMoreUsers, getAnotherPage})(authRedirectComponent)
+
+// types
 type PropsType = MapDispatchPropsType & MapStatePropsType
 type MapStatePropsType = {
     users: UsersPageType
-    isAuth: boolean
 }
 type MapDispatchPropsType = {
     unfollowToUser: (userId: number, isFollow: boolean) => void

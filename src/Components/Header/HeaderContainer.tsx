@@ -18,7 +18,6 @@ class HeaderContainer extends React.Component<PropsType, AuthInitialStateType> {
                 {this.props.auth.isFetching && <Preloader/>}
                 <Header isAuth={this.props.auth.isAuth}/>
             </>
-
         )
     }
 }
