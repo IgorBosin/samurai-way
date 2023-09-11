@@ -11,7 +11,13 @@ export const authApi = {
 }
 export const profileApi = {
     getUserProfile: (userId: string) => {
-        return instance.get<UserProfileType>(`/profile/${userId}`)
+        return instance.get<UserResponseType>(`/profile/${userId}`)
+    },
+    getUserStatus: (userId: string) => {
+        return instance.get<string>(`/profile/status/${userId}`)
+    },
+    changeStatus: (status: string) => {
+        return instance.put<CommonResponseType>(`/profile/status`, {status})
     }
 }
 export const userApi = {
@@ -22,10 +28,10 @@ export const userApi = {
             })
     },
     followToUser: (userId: number) => {
-        return instance.post<UserSubscriptionType>(`/follow/${userId}`)
+        return instance.post<CommonResponseType>(`/follow/${userId}`)
     },
     unfollowToUser: (userId: number) => {
-        return instance.delete<UserSubscriptionType>(`/follow/${userId}`)
+        return instance.delete<CommonResponseType>(`/follow/${userId}`)
     },
 }
 
@@ -45,7 +51,7 @@ export type UsersType = {
     followed: boolean
 }
 
-type UserSubscriptionType = {
+type CommonResponseType = {
     resultCode: number
     messages: String[],
     data: {}
@@ -60,7 +66,7 @@ type GetAuthMeResponseType = {
     messages: string[],
     data: AuthData
 }
-export type UserProfileType = {
+export type UserResponseType = {
     aboutMe: string,
     contacts: {
         facebook: string,

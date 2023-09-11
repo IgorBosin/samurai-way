@@ -1,22 +1,24 @@
 import React from "react";
 import {ProfileInfo} from "./ProfileInfo/ProfileInfo";
-import {UserProfileType} from "../../api/api";
 import MyPostsContainer from "./MyPosts/MyPostsContainer";
+import {ProfilePageType} from "../../Redux/profileReducer";
 
 type PropsType = {
-    profileUser:UserProfileType
+    userProfile: ProfilePageType
+    changeUserStatus: (status: string) => void
+
 }
 
-function Profile(props:PropsType) {
+function Profile(props: PropsType) {
 
-    if (props.profileUser.userId===0) {
+    if (props.userProfile.userProfile.userId === 0) {
         return <div></div>
     }
 
     return (
         <div>
-            <ProfileInfo profileUser={props.profileUser}/>
-            <MyPostsContainer />
+            <ProfileInfo changeUserStatus={props.changeUserStatus} userProfile={props.userProfile}/>
+            <MyPostsContainer/>
         </div>
     )
 }

@@ -38,16 +38,15 @@ export const getUserData = () => (dispatch: Dispatch) => {
                 dispatch(isFetching(false))
             } else {
                 dispatch(isFetching(false))
+                console.error('NOT AUTH')
             }
         })
 }
 export const toggleIsFetching = (id: string) => (dispatch: Dispatch) => {
-    let userId = id
-    if (!userId) userId = '1045';
     dispatch(isFetching(true))
-    profileApi.getUserProfile(userId)
+    profileApi.getUserProfile(id)
         .then(res => {
-            dispatch(setUserProfile(res.data)) // export from /profileReducer
+            dispatch(setUserProfile(res.data))
             dispatch(isFetching(false))
         })
 }
