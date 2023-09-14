@@ -1,28 +1,19 @@
-import React, {ChangeEvent, LegacyRef} from "react";
+import React from "react";
 import s from "./MyPosts.module.css";
 import Post from "./Post/Post";
 import {postsType} from "../../../Redux/profileReducer";
+import {AddTextForm} from "../../common/AddTextForm/AddTextForm";
 
 type PropsType = {
     posts: postsType[]
-    newPostText: string
-    addNewPost: () => void
-    updateNewPostText: (value: string) => void
+    addNewPost: (postMessage: string) => void
 }
 
 function MyPosts(props: PropsType) {
 
-    const newPostElement: LegacyRef<HTMLTextAreaElement> = React.createRef()
-
-    const addPost = () => {
-        props.addNewPost()
+    const addPost = (postMessage: string) => {
+        props.addNewPost(postMessage)
     }
-
-    const onPostChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        props.updateNewPostText(e.currentTarget.value)
-    }
-
-
 
     let postsElements = props.posts.map((p, index) =>
         <Post key={index} messages={p.message} name={p.name} likesCount={p.likesCount} img={p.img}/>)
@@ -30,12 +21,7 @@ function MyPosts(props: PropsType) {
     return (
         <div className={s.postBlock}>
             <h3>My post</h3>
-            <div>
-                <textarea value={props.newPostText} onChange={onPostChange} ref={newPostElement}/>
-                <div>
-                    <button onClick={addPost}>Add post</button>
-                </div>
-            </div>
+            <AddTextForm title={'Add post'} maxSymbols={20} callback={addPost}/>
             <div className={s.posts}>
                 {postsElements}
             </div>
@@ -44,3 +30,8 @@ function MyPosts(props: PropsType) {
 }
 
 export default MyPosts
+
+
+
+
+

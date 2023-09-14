@@ -1,19 +1,21 @@
-import React, {ChangeEvent, LegacyRef} from "react";
+import React from "react";
 import s from './Dialogs.module.css'
 import {DialogItem} from "./DialogsItem/DialogItem";
 import {Message} from "./Message/Message";
 import {DialogsType, MessagesType} from "../../Redux/dialogsReducer";
+import {AddTextForm} from "../common/AddTextForm/AddTextForm";
 
 type PropsType = {
-    addMessage: () => void
-    updateNewMessageText: (value: string) => void
+    addMessage: (message: string) => void
     messages: MessagesType[]
     dialogs: DialogsType[]
-    newMessageText: string
 }
 
-function Dialogs(props: PropsType) {
-    const addMessages: LegacyRef<HTMLInputElement> = React.createRef()
+export function Dialogs(props: PropsType) {
+
+    const addMessage = (message: string) => {
+        props.addMessage(message)
+    }
 
     let dialogsElements = props.dialogs.map((d, index) =>
         <DialogItem
@@ -26,26 +28,16 @@ function Dialogs(props: PropsType) {
             key={index}
             dialogMessages={m.message}/>)
 
-    const onMessageChange = (e: ChangeEvent<HTMLInputElement>) => {
-        props.updateNewMessageText(e.currentTarget.value)
-    }
-
-    const addMessage = () => {
-        props.addMessage()
-    }
-
     return (
         <div className={s.dialogs}>
-            <div className={s.dialogsItems}>
-                {dialogsElements}
-            </div>
+            <div className={s.dialogsItems}>{dialogsElements}</div>
             <div className={s.messages}>
                 {messagesElements}
-                <input value={props.newMessageText} onChange={onMessageChange} ref={addMessages}/>
-                <button onClick={addMessage}>Add messages</button>
+                <AddTextForm title={'Send message'} maxSymbols={50} callback={addMessage}/>
             </div>
         </div>
     )
 }
 
-export default Dialogs
+
+

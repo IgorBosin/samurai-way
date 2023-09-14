@@ -8,7 +8,7 @@ import Button from "@mui/material/Button";
 import FormGroup from "@mui/material/FormGroup";
 import Grid from "@mui/material/Grid";
 
-type Inputs = {
+type InputsType = {
     email: string
     password: string
     rememberMe: boolean
@@ -28,9 +28,9 @@ const LoginForm = () => {
         register,
         formState: {errors},
         reset,
-    } = useForm<Inputs>({mode: 'onBlur'})
+    } = useForm<InputsType>({mode: 'onBlur'})
 
-    const onSubmit: SubmitHandler<Inputs> = (data) => {
+    const onSubmit: SubmitHandler<InputsType> = (data) => {
         console.log(data)
         reset()
     }

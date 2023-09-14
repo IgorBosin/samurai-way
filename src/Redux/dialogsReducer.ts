@@ -12,19 +12,13 @@ const initialState: DialogsPageType = {
         {id: v1(), name: 'Miha', avatar: 'https://postel24.ru/image/cache/no_image-1000x1000.png'},
         {id: v1(), name: 'Yura', avatar: 'https://postel24.ru/image/cache/no_image-1000x1000.png'},
     ],
-    newMessageText: ''
 }
 
 export const dialogsReducer = (state: DialogsPageType = initialState, action: ActionType): DialogsPageType => {
     switch (action.type) {
-        case 'UPDATE-NEW-MESSAGE-TEXT': {
-            return {...state, newMessageText: action.newText}
-        }
         case 'ADD-MESSAGE': {
-            if (state.newMessageText) {
-                const newMessage: MessagesType = {id: v1(), message: state.newMessageText}
-                return {...state, messages: [...state.messages, newMessage], newMessageText: ''}
-            } else return state
+            const newMessage: MessagesType = {id: v1(), message: action.message}
+            return {...state, messages: [...state.messages, newMessage]}
         }
         default:
             return state
@@ -32,11 +26,7 @@ export const dialogsReducer = (state: DialogsPageType = initialState, action: Ac
 }
 
 //action creators
-export const addMessage = () => ({type: 'ADD-MESSAGE'} as const)
-export const updateNewMessageText = (textMessage: string) => ({
-    type: 'UPDATE-NEW-MESSAGE-TEXT',
-    newText: textMessage
-} as const)
+export const addMessage = (message: string) => ({type: 'ADD-MESSAGE', message} as const)
 
 //thunk creators
 
@@ -45,7 +35,6 @@ export const updateNewMessageText = (textMessage: string) => ({
 export type DialogsPageType = {
     messages: MessagesType[]
     dialogs: DialogsType[]
-    newMessageText: string
 }
 export type MessagesType = {
     id: string
@@ -56,7 +45,6 @@ export type DialogsType = {
     name: string
     avatar: string
 }
-type ActionType = AddMessageActionType | UpdateNewMessageTextActionType
+type ActionType = AddMessageActionType
 type AddMessageActionType = ReturnType<typeof addMessage>
-type UpdateNewMessageTextActionType = ReturnType<typeof updateNewMessageText>
 
