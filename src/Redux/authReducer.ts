@@ -1,6 +1,8 @@
 import {authApi, AuthData, profileApi} from "../api/api";
 import {Dispatch} from "redux";
 import {setUserProfile} from "./profileReducer";
+import {LoginInputsType} from "../Components/Login/Login";
+import {AppThunkDispatch} from "./store";
 
 const initialState: AuthInitialStateType = {
     id: 0,
@@ -13,19 +15,22 @@ const initialState: AuthInitialStateType = {
 export const authReducer = (state: AuthInitialStateType = initialState, action: ActionType): AuthInitialStateType => {
     switch (action.type) {
         case 'SET-USER-DATA': {
-            return {...state, ...action.data, isAuth: true}
+            return {...state, ...action.payload, isAuth: action.isAuth}
         }
         case "TOGGLE-IS-FETCHING": {
             return {...state, isFetching: action.isFetching}
         }
-
         default:
             return state
     }
 }
 
 //action creators
-export const setUserData = (data: AuthData) => ({type: 'SET-USER-DATA', data: data} as const)
+export const setUserData = (data: AuthData | null, isAuth: boolean) => ({
+    type: 'SET-USER-DATA',
+    payload: data,
+    isAuth
+} as const)
 export const isFetching = (isFetching: boolean) => ({type: 'TOGGLE-IS-FETCHING', isFetching} as const)
 
 //thunk creators
@@ -34,7 +39,7 @@ export const getUserData = () => (dispatch: Dispatch) => {
     authApi.auth()
         .then((res) => {
             if (res.data.resultCode === 0) {
-                dispatch(setUserData(res.data.data))
+                dispatch(setUserData(res.data.data, true))
                 dispatch(isFetching(false))
             } else {
                 dispatch(isFetching(false))
@@ -48,6 +53,32 @@ export const toggleIsFetching = (id: string) => (dispatch: Dispatch) => {
         .then(res => {
             dispatch(setUserProfile(res.data))
             dispatch(isFetching(false))
+        })
+}
+export const login = (auth: LoginInputsType) => (dispatch: AppThunkDispatch) => {
+    dispatch(isFetching(true))
+    authApi.login(auth)
+        .then((res) => {
+            if (res.data.resultCode === 0) {
+                dispatch(isFetching(false))
+                dispatch(getUserData())
+            } else {
+                dispatch(isFetching(false))
+                console.error('NOT AUTH')
+            }
+        })
+}
+export const logout = () => (dispatch: Dispatch) => {
+    dispatch(isFetching(true))
+    authApi.logout()
+        .then((res) => {
+            if (res.data.resultCode === 0) {
+                dispatch(isFetching(false))
+                dispatch(setUserData({id: 0, email: '', login: ''}, false))
+            } else {
+                dispatch(isFetching(false))
+                console.error('NOT AUTH')
+            }
         })
 }
 

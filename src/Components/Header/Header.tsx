@@ -2,16 +2,21 @@ import React from "react";
 import s from './Header.module.css';
 import {Link} from "react-router-dom";
 
-function Header({isAuth}: { isAuth: boolean }) {
+type PropsType = {
+    isAuth: boolean
+    logout: () => void
+}
 
-    const login = isAuth ? 'LogOut' : 'Login'
+function Header(props: PropsType) {
+
+    const login = props.isAuth ? 'LogOut' : 'Login'
 
     return (
         <header className={s.header}>
             <img
                 src="https://www.nasa.gov/sites/default/files/thumbnails/image/nasa-logo-web-rgb.png"
                 alt="logo"/>
-            <Link to="/login">{login}</Link>
+            <Link onClick={props.logout} to="/login">{login}</Link>
         </header>
     )
 }

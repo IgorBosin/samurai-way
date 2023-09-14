@@ -1,4 +1,5 @@
 import axios from "axios";
+import {LoginInputsType} from "../Components/Login/Login";
 
 const instance = axios.create({
     baseURL: 'https://social-network.samuraijs.com/api/1.0/',
@@ -7,7 +8,13 @@ const instance = axios.create({
 export const authApi = {
     auth: () => {
         return instance.get<GetAuthMeResponseType>('auth/me')
-    }
+    },
+    login: (auth:LoginInputsType) => {
+        return instance.post<LoginResponseType>('/auth/login', auth)
+    },
+    logout: () => {
+        return instance.delete<GetAuthMeResponseType>('/auth/login')
+    },
 }
 export const profileApi = {
     getUserProfile: (userId: string) => {
@@ -85,5 +92,13 @@ export type UserResponseType = {
     photos: {
         small: string,
         large: string
+    }
+}
+
+type LoginResponseType = {
+    resultCode: number
+    messages: string[],
+    data: {
+        userId: number
     }
 }

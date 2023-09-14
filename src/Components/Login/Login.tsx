@@ -7,8 +7,11 @@ import Checkbox from "@mui/material/Checkbox";
 import Button from "@mui/material/Button";
 import FormGroup from "@mui/material/FormGroup";
 import Grid from "@mui/material/Grid";
+import {useAppDispatch} from "../../Redux/store";
+import {login} from "../../Redux/authReducer";
 
-type InputsType = {
+
+export type LoginInputsType = {
     email: string
     password: string
     rememberMe: boolean
@@ -23,15 +26,18 @@ export const Login = () => {
 
 const LoginForm = () => {
 
+    const dispatch = useAppDispatch()
+
     const {
         handleSubmit,
         register,
         formState: {errors},
         reset,
-    } = useForm<InputsType>({mode: 'onBlur'})
+    } = useForm<LoginInputsType>({mode: 'onBlur'})
 
-    const onSubmit: SubmitHandler<InputsType> = (data) => {
-        console.log(data)
+
+    const onSubmit: SubmitHandler<LoginInputsType> = (data) => {
+        dispatch(login(data))
         reset()
     }
 
@@ -40,7 +46,7 @@ const LoginForm = () => {
             <FormControl>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <FormGroup>
-                        <TextField label={'Email'} type={'email'} error={!!errors.email} margin="dense"
+                        <TextField label={'Email'} error={!!errors.email} margin="dense"
                                    helperText={errors.email?.message}
                                    {...register("email", {
                                        required: {
@@ -77,4 +83,3 @@ const LoginForm = () => {
     </Grid>
 };
 
-export default Login;

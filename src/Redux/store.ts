@@ -1,10 +1,11 @@
-import {applyMiddleware, combineReducers, legacy_createStore} from "redux";
+import {AnyAction, applyMiddleware, combineReducers, legacy_createStore} from "redux";
 import {profileReducer} from "./profileReducer";
 import {dialogsReducer} from "./dialogsReducer";
 import {sidebarReducer} from "./sidebarReducer";
 import {usersReducer} from "./usersReducer";
 import {authReducer} from "./authReducer";
-import thunk from "redux-thunk";
+import thunk, {ThunkDispatch} from "redux-thunk";
+import {useDispatch} from "react-redux";
 
 
 const rootReducer = combineReducers({
@@ -17,6 +18,10 @@ const rootReducer = combineReducers({
 })
 
 export type AppRootState = ReturnType<typeof rootReducer>
+
+export type AppThunkDispatch = ThunkDispatch<AppRootState, any, AnyAction>
+export const useAppDispatch = () => useDispatch<AppThunkDispatch>();
+
 
 export const store = legacy_createStore(rootReducer, applyMiddleware(thunk))
 
