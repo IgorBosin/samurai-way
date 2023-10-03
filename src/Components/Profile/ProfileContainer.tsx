@@ -6,9 +6,12 @@ import {RouteComponentProps, withRouter} from "react-router-dom";
 import {toggleIsFetching} from "Redux/authReducer";
 import {compose} from "redux";
 import {AppRootStateType} from "Redux/store";
+import {userProfileSelector, userStatusSelector} from "Redux/profileSelectors";
+import {UserResponseType} from "api/api";
 
 const mapStateToProps = (state: AppRootStateType): MapStatePropsType => ({
-    userProfile: state.profilePage,
+    userProfile: userProfileSelector(state),
+    userStatus: userStatusSelector(state),
     autorizedUserId: state.auth.id
 })
 
@@ -25,7 +28,9 @@ class ProfileContainer extends React.Component<PropsType, ProfilePageType> {
     render() {
         return (
             <div>
-                <Profile userProfile={this.props.userProfile} changeUserStatus={this.props.changeUserStatus}/>
+                <Profile userProfile={this.props.userProfile}
+                         userStatus={this.props.userStatus}
+                         changeUserStatus={this.props.changeUserStatus}/>
             </div>
         )
     }
@@ -33,7 +38,6 @@ class ProfileContainer extends React.Component<PropsType, ProfilePageType> {
 
 export default compose<React.ComponentType>(
     connect(mapStateToProps, {toggleIsFetching, getUserStatus, changeUserStatus}),
-    // WithAuthRedirect,
     withRouter  // сначала оборач в withRouter и получ доп.св-ва (id в строке браузера)
 )(ProfileContainer)
 
@@ -44,7 +48,8 @@ type PathParamsType = {
 }
 type OwnPropsType = MapDispatchPropsType & MapStatePropsType
 type MapStatePropsType = {
-    userProfile: ProfilePageType
+    userProfile: UserResponseType
+    userStatus: string
     autorizedUserId: number
 }
 type MapDispatchPropsType = {

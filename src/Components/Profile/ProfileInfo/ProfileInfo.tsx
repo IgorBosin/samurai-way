@@ -1,10 +1,11 @@
 import React from "react";
 import s from "./ProfileInfo.module.css";
 import ProfileStatus from "./ProfileStatus";
-import {ProfilePageType} from "Redux/profileReducer";
+import {UserResponseType} from "api/api";
 
 type PropsType = {
-    userProfile: ProfilePageType
+    userProfile: UserResponseType
+    userStatus: string
     changeUserStatus: (status: string) => void
 }
 
@@ -12,12 +13,12 @@ export function ProfileInfo(props: PropsType) {
     return (
         <div>
             <div>
-                <ProfileStatus changeUserStatus={props.changeUserStatus} status={props.userProfile.status}/>
+                <ProfileStatus changeUserStatus={props.changeUserStatus} status={props.userStatus}/>
             </div>
             <div className={s.descriptionBlock}>
-                <span>{props.userProfile.userProfile.fullName}</span>
-                <img src={props.userProfile.userProfile.photos.large} alt="large photo"/>
-                {props.userProfile.userProfile.aboutMe}
+                <span>{props.userProfile.fullName}</span>
+                <img src={props.userProfile.photos.large} alt="large photo"/>
+                {props.userProfile.aboutMe}
             </div>
         </div>
 

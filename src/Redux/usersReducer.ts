@@ -1,4 +1,4 @@
-import {userApi, UsersType} from "../api/api";
+import {userApi, UsersType} from "api/api";
 import {Dispatch} from "redux";
 import {isFetching} from "./authReducer";
 
@@ -129,7 +129,7 @@ export type UsersPageType = {
     pageSize: number
     currentPage: number
 }
-type UserStoreType = UsersType & { isFollowing: boolean }
+export type UserStoreType = UsersType & { isFollowing: boolean }
 type ActionType = SubscriptionToUserType
     | IsFollowingType
     | ShowMoreUsersType

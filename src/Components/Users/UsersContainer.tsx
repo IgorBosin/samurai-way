@@ -1,38 +1,37 @@
 import React from "react";
-import {followToUser, getAnotherPage, getMoreUsers, getUsers, unfollowToUser, UsersPageType} from "Redux/usersReducer";
+import {
+    followToUser,
+    getAnotherPage,
+    getMoreUsers,
+    getUsers,
+    unfollowToUser,
+    UsersPageType,
+    UserStoreType
+} from "Redux/usersReducer";
 import {Users} from "./Users";
 import {connect} from "react-redux";
 import {compose} from "redux";
 import {AppRootStateType} from "Redux/store";
+import {currentPageSelector, pageSizeSelector, totalCountSelector, usersListsSelector} from "Redux/usersSelectors";
 
 const mapStateToProps = (state: AppRootStateType): MapStatePropsType => {
     return {
-        users: state.usersPage,
+        currentPage: currentPageSelector(state),
+        pageSize: pageSizeSelector(state),
+        totalCount: totalCountSelector(state),
+        usersList: usersListsSelector(state)
     }
 };
 
-class UsersContainer extends React.Component<PropsType, UsersPageType> {
+class UsersContainer extends React.Component<UsersPropsType, UsersPageType> {
     componentDidMount() {
-        this.props.getUsers(this.props.users.pageSize, this.props.users.currentPage)
+        this.props.getUsers(this.props.pageSize, this.props.currentPage)
     }
 
     render() {
-        const setMoreUsers = () => {
-            this.props.getMoreUsers(this.props.users.pageSize, this.props.users.currentPage)
-        }
-
-        const changePage = (currentPage: number) => {
-            this.props.getAnotherPage(this.props.users.pageSize, currentPage)
-        }
-
         return (
             <div>
-                <Users
-                    users={this.props.users}
-                    unfollowToUser={this.props.unfollowToUser}
-                    followToUser={this.props.followToUser}
-                    getAnotherPage={changePage}
-                    getMoreUsers={setMoreUsers}/>
+                <Users {...this.props}/>
             </div>
         )
     }
@@ -40,13 +39,15 @@ class UsersContainer extends React.Component<PropsType, UsersPageType> {
 
 export default compose<React.ComponentType>(
     connect(mapStateToProps, {unfollowToUser, followToUser, getUsers, getMoreUsers, getAnotherPage}),
-    // WithAuthRedirect,
 )(UsersContainer)
 
 // types
-type PropsType = MapDispatchPropsType & MapStatePropsType
+export type UsersPropsType = MapDispatchPropsType & MapStatePropsType
 type MapStatePropsType = {
-    users: UsersPageType
+    currentPage: number
+    pageSize: number
+    totalCount: number
+    usersList: UserStoreType[]
 }
 type MapDispatchPropsType = {
     unfollowToUser: (userId: number, isFollow: boolean) => void

@@ -1,21 +1,17 @@
 import s from './Users.module.css'
 import avatarDefault from '../../assets/images/avatarDefault.png'
-import {UsersPageType} from "../../Redux/usersReducer";
 import React from "react";
 import Pagination from "../common/Pagination/Pagination";
 import {Link} from "react-router-dom";
+import {UsersPropsType} from "Components/Users/UsersContainer";
 
-type UsersComponentType = {
-    users: UsersPageType
-    unfollowToUser: (userId: number, isFollow: boolean) => void
-    followToUser: (userId: number, isFollow: boolean) => void
-    getAnotherPage: (currentPage: number) => void
-    getMoreUsers: () => void
-}
+export const Users = (props: UsersPropsType) => {
 
-export const Users = (props: UsersComponentType) => {
+    const totalPages = Math.ceil(props.totalCount / props.pageSize)
 
-    const totalPages = Math.ceil(props.users.totalCount / props.users.pageSize)
+    const changePage = (currentPage: number) => {
+        props.getAnotherPage(props.pageSize, currentPage)
+    }
 
     const unfollowToUser = (userId: number, isFollow: boolean) => {
         props.unfollowToUser(userId, isFollow)
@@ -24,17 +20,14 @@ export const Users = (props: UsersComponentType) => {
         props.followToUser(userId, isFollow)
     }
 
-    const setUsers = () => {
-        props.getMoreUsers()
-    }
-    const changePage = (currentPage: number) => {
-        props.getAnotherPage(currentPage)
+    const setMoreUsers = () => {
+        props.getMoreUsers(props.pageSize, props.currentPage)
     }
 
     return (
         <div className={s.usersContainer}>
-            <Pagination currentPage={props.users.currentPage} totalPages={totalPages} onPageChange={changePage}/>
-            {props.users.items.map(el => {
+            <Pagination currentPage={props.currentPage} totalPages={totalPages} onPageChange={changePage}/>
+            {props.usersList.map((el: any) => {
                 return (
                     <div key={el.id}>
                         <div className={s.usersListContainer}>
@@ -67,7 +60,7 @@ export const Users = (props: UsersComponentType) => {
                     </div>
                 )
             })}
-            <button className={s.buttonMore} onClick={setUsers}>MORE USERS</button>
+            <button className={s.buttonMore} onClick={setMoreUsers}>MORE USERS</button>
         </div>
     );
 }
