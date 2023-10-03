@@ -1,11 +1,11 @@
 import React from 'react';
 import {connect} from "react-redux";
-import {AppRootState} from "../../../Redux/store";
 import {Dispatch} from "redux";
-import {DialogsType} from "../../../Redux/dialogsReducer";
+import {DialogsType} from "Redux/dialogsReducer";
 import {BestFriends} from "./BestFriends";
+import {AppRootStateType} from "Redux/store";
 
-const mapStateToProps = (state: AppRootState): MapStatePropsType => {
+const mapStateToProps = (state: AppRootStateType): MapStatePropsType => {
     return {
         bestFriends: state.sidebar
     }

@@ -1,19 +1,11 @@
 import React from "react";
-import {
-    followToUser,
-    getAnotherPage,
-    getMoreUsers,
-    getUsers,
-    unfollowToUser,
-    UsersPageType
-} from "../../Redux/usersReducer";
-import {AppRootState} from "../../Redux/store";
+import {followToUser, getAnotherPage, getMoreUsers, getUsers, unfollowToUser, UsersPageType} from "Redux/usersReducer";
 import {Users} from "./Users";
 import {connect} from "react-redux";
-import {WithAuthRedirect} from "../../hoc/WithAuthRedirect";
 import {compose} from "redux";
+import {AppRootStateType} from "Redux/store";
 
-const mapStateToProps = (state: AppRootState): MapStatePropsType => {
+const mapStateToProps = (state: AppRootStateType): MapStatePropsType => {
     return {
         users: state.usersPage,
     }
@@ -48,7 +40,7 @@ class UsersContainer extends React.Component<PropsType, UsersPageType> {
 
 export default compose<React.ComponentType>(
     connect(mapStateToProps, {unfollowToUser, followToUser, getUsers, getMoreUsers, getAnotherPage}),
-    WithAuthRedirect,
+    // WithAuthRedirect,
 )(UsersContainer)
 
 // types

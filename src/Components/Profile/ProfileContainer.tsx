@@ -1,28 +1,28 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {AppRootState} from '../../Redux/store';
 import Profile from './Profile';
-import {changeUserStatus, getUserStatus, ProfilePageType} from "../../Redux/profileReducer";
+import {changeUserStatus, getUserStatus, ProfilePageType} from "Redux/profileReducer";
 import {RouteComponentProps, withRouter} from "react-router-dom";
-import {toggleIsFetching} from "../../Redux/authReducer";
-import {WithAuthRedirect} from "../../hoc/WithAuthRedirect";
+import {toggleIsFetching} from "Redux/authReducer";
 import {compose} from "redux";
+import {AppRootStateType} from "Redux/store";
 
-const mapStateToProps = (state: AppRootState): MapStatePropsType => ({
-    userProfile: state.profilePage
+const mapStateToProps = (state: AppRootStateType): MapStatePropsType => ({
+    userProfile: state.profilePage,
+    autorizedUserId: state.auth.id
 })
 
 class ProfileContainer extends React.Component<PropsType, ProfilePageType> {
     componentDidMount() {
         let userId = this.props.match.params.userId
-        if (!userId) userId = '29291';
-        // if (!userId) userId = '1045';
+        if (!userId) userId = String(this.props.autorizedUserId);
+        if (!userId) this.props.history.push('/login')
+
         this.props.toggleIsFetching(userId)
         this.props.getUserStatus(userId)
     }
 
     render() {
-        console.log(this.props.userProfile)
         return (
             <div>
                 <Profile userProfile={this.props.userProfile} changeUserStatus={this.props.changeUserStatus}/>
@@ -33,7 +33,7 @@ class ProfileContainer extends React.Component<PropsType, ProfilePageType> {
 
 export default compose<React.ComponentType>(
     connect(mapStateToProps, {toggleIsFetching, getUserStatus, changeUserStatus}),
-    WithAuthRedirect,
+    // WithAuthRedirect,
     withRouter  // сначала оборач в withRouter и получ доп.св-ва (id в строке браузера)
 )(ProfileContainer)
 
@@ -45,6 +45,7 @@ type PathParamsType = {
 type OwnPropsType = MapDispatchPropsType & MapStatePropsType
 type MapStatePropsType = {
     userProfile: ProfilePageType
+    autorizedUserId: number
 }
 type MapDispatchPropsType = {
     toggleIsFetching: (userId: string) => void

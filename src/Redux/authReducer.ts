@@ -1,8 +1,8 @@
-import {authApi, AuthData, profileApi} from "../api/api";
+import {authApi, AuthData, profileApi} from "api/api";
 import {Dispatch} from "redux";
 import {setUserProfile} from "./profileReducer";
-import {LoginInputsType} from "../Components/Login/Login";
-import {AppThunkDispatch} from "./store";
+import {LoginInputsType} from "Components/Login/Login";
+import {AppDispatchType} from "Redux/store";
 
 const initialState: AuthInitialStateType = {
     id: 0,
@@ -36,7 +36,7 @@ export const isFetching = (isFetching: boolean) => ({type: 'TOGGLE-IS-FETCHING',
 //thunk creators
 export const getUserData = () => (dispatch: Dispatch) => {
     dispatch(isFetching(true))
-    authApi.auth()
+    return authApi.auth()
         .then((res) => {
             if (res.data.resultCode === 0) {
                 dispatch(setUserData(res.data.data, true))
@@ -46,6 +46,7 @@ export const getUserData = () => (dispatch: Dispatch) => {
                 console.error('NOT AUTH')
             }
         })
+
 }
 export const toggleIsFetching = (id: string) => (dispatch: Dispatch) => {
     dispatch(isFetching(true))
@@ -55,7 +56,7 @@ export const toggleIsFetching = (id: string) => (dispatch: Dispatch) => {
             dispatch(isFetching(false))
         })
 }
-export const login = (auth: LoginInputsType) => (dispatch: AppThunkDispatch) => {
+export const login = (auth: LoginInputsType) => (dispatch: AppDispatchType) => {
     dispatch(isFetching(true))
     authApi.login(auth)
         .then((res) => {

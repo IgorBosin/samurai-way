@@ -5,11 +5,12 @@ import {Link} from "react-router-dom";
 type PropsType = {
     isAuth: boolean
     logout: () => void
+    userName: string
 }
 
 function Header(props: PropsType) {
 
-    const login = props.isAuth ? 'LogOut' : 'Login'
+    const login = props.isAuth ? `${props.userName}-LogOut` : 'Login'
 
     return (
         <header className={s.header}>

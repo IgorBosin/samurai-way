@@ -2,7 +2,7 @@ import React from "react";
 import s from './Dialogs.module.css'
 import {DialogItem} from "./DialogsItem/DialogItem";
 import {Message} from "./Message/Message";
-import {DialogsType, MessagesType} from "../../Redux/dialogsReducer";
+import {DialogsType, MessagesType} from "Redux/dialogsReducer";
 import {AddTextForm} from "../common/AddTextForm/AddTextForm";
 
 type PropsType = {

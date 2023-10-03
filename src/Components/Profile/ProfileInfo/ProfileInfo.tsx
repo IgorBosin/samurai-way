@@ -1,7 +1,7 @@
 import React from "react";
 import s from "./ProfileInfo.module.css";
 import ProfileStatus from "./ProfileStatus";
-import {ProfilePageType} from "../../../Redux/profileReducer";
+import {ProfilePageType} from "Redux/profileReducer";
 
 type PropsType = {
     userProfile: ProfilePageType
