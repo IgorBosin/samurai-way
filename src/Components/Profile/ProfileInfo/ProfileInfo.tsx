@@ -1,7 +1,7 @@
 import React from "react";
 import s from "./ProfileInfo.module.css";
-import ProfileStatus from "./ProfileStatus";
 import {UserResponseType} from "api/api";
+import {ProfileStatusWithUseState} from "Components/Profile/ProfileInfo/ProfileStatusWithUseState";
 
 type PropsType = {
     userProfile: UserResponseType
@@ -13,7 +13,7 @@ export function ProfileInfo(props: PropsType) {
     return (
         <div>
             <div>
-                <ProfileStatus changeUserStatus={props.changeUserStatus} status={props.userStatus}/>
+                <ProfileStatusWithUseState changeUserStatus={props.changeUserStatus} status={props.userStatus}/>
             </div>
             <div className={s.descriptionBlock}>
                 <span>{props.userProfile.fullName}</span>
